@@ -25,12 +25,12 @@ proxy-providers:
   Sub_1:
     type: http
     interval: 21600
-    url: "订阅链接"
+    url: "你的订阅链接"
     path: ./providers/Sub_1.yaml
   Sub_2:
     type: http
     interval: 21600
-    url: "订阅链接"
+    url: "你的订阅链接"
     path: ./providers/Sub_2.yaml
 SUBS: &SUBS [Sub_1, Sub_2]    
 
