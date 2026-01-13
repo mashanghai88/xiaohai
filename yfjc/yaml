@@ -1,7 +1,7 @@
-mixed-port: 7891
+mixed-port: 7890
 allow-lan: true
 mode: rule
-log-level: debug
+log-level: info
 ipv6: false
 unified-delay: true
 tcp-concurrent: true
@@ -13,7 +13,6 @@ geox-url:
   geosite: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat'
   mmdb: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb'
   asn: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb'
-
 profile:
   store-selected: true
   store-fake-ip: true
@@ -41,7 +40,6 @@ HEALTH_CHECK: &HEALTH_CHECK
 
 AUTO_T: &AUTO_T {type: url-test, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
 FALLBACK_T: &FALLBACK_T {type: fallback, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
-LB_T: &LB_T {type: load-balance, strategy: consistent-hashing, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
 SELECT_T: &SELECT_T {type: select, use: *SUBS, exclude-filter: *FILTER}
 
 sniffer:
@@ -93,107 +91,98 @@ dns:
     'dns.google': [8.8.8.8, 8.8.4.4]
 
 proxy-groups:
-- {name: 𝑴𝒂𝒔𝒕𝒆𝒓, type: select, proxies: [𝑨𝑼𝑻𝑶-电信, 𝑭𝑨𝑳𝑳-电信, 𝑨𝑼𝑻𝑶-移动, 𝑭𝑨𝑳𝑳-移动, 𝑨𝑼𝑻𝑶-联通, 𝑭𝑨𝑳𝑳-联通, 𝑨𝑼𝑻𝑶 亚洲, 𝑨𝑼𝑻𝑶 欧美, 𝑨𝑼𝑻𝑶 全部, 𝑭𝑨𝑳𝑳 全部, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 手动, DIRECT], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png}
+- {name: 𝑭𝑰𝑵𝑨𝑳, type: select, proxies: [𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png}
 
-- {name: 𝑪𝒐𝒓𝒆 手动, <<: *SELECT_T, proxies: [𝑨𝑼𝑻𝑶 亚洲, 𝑨𝑼𝑻𝑶 欧美], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Area.png}
+- {name: 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍, <<: *SELECT_T, proxies: [𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Area.png}
 
-- {name: 𝑮𝒐𝒐𝒈𝒍𝒆, <<: *SELECT_T, proxies: [𝑨𝑼𝑻𝑶-电信, 𝑭𝑨𝑳𝑳-电信, 𝑨𝑼𝑻𝑶-移动, 𝑭𝑨𝑳𝑳-移动, 𝑨𝑼𝑻𝑶-联通, 𝑭𝑨𝑳𝑳-联通, 𝑨𝑼𝑻𝑶 亚洲, 𝑨𝑼𝑻𝑶 欧美, 𝑨𝑼𝑻𝑶 全部, 𝑭𝑨𝑳𝑳 全部, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Google.png"}
+- {name: 𝑮𝒐𝒐𝒈𝒍𝒆, <<: *SELECT_T, proxies: [𝑭𝑰𝑵𝑨𝑳 ,𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Google.png"}
 
-- {name: 𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎, <<: *SELECT_T, proxies: [𝑨𝑼𝑻𝑶-电信, 𝑭𝑨𝑳𝑳-电信, 𝑨𝑼𝑻𝑶-移动, 𝑭𝑨𝑳𝑳-移动, 𝑨𝑼𝑻𝑶-联通, 𝑭𝑨𝑳𝑳-联通, 𝑨𝑼𝑻𝑶 亚洲, 𝑨𝑼𝑻𝑶 欧美, 𝑨𝑼𝑻𝑶 全部, 𝑭𝑨𝑳𝑳 全部, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆], icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/Telegrampremium.png"}
+- {name: 𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎, <<: *SELECT_T, proxies: [𝑭𝑰𝑵𝑨𝑳, 𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/Telegrampremium.png"}
 
-- {name: 𝑨𝑰-𝑶𝒏𝒍𝒚, <<: *SELECT_T, exclude-filter: *AI_FILTER, proxies: [𝑨𝑰 优选], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/OpenAI.png"}
+- {name: 𝑨𝑰-𝑶𝒏𝒍𝒚, <<: *SELECT_T, exclude-filter: *AI_FILTER, proxies: [𝑨𝑰 𝑨𝒄𝒄𝒆𝒔𝒔], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/OpenAI.png"}
 
-- {name: 𝑨𝑼𝑻𝑶 全部, <<: *AUTO_T}
-- {name: 𝑭𝑨𝑳𝑳 全部, <<: *FALLBACK_T}
-- {name: 𝑨𝑼𝑻𝑶-电信, <<: *AUTO_T, filter: '(?i)Amazon|亚马逊|三网|🇺🇸|电信|🇯🇵日本[1-6]号|🇩🇪'}
-- {name: 𝑭𝑨𝑳𝑳-电信, <<: *FALLBACK_T, filter: '(?i)Amazon|亚马逊|三网|🇺🇸|电信|🇯🇵日本[1-6]号|🇩🇪'}
+- {name: 𝑯𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰', proxies: [𝑯𝑲-𝑨𝑼𝑻𝑶, 𝑯𝑲-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/hk.png}
+- {name: 𝑺𝑮 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬', proxies: [𝑺𝑮-𝑨𝑼𝑻𝑶, 𝑺𝑮-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/sg.png}
+- {name: 𝑻𝑾 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼', proxies: [𝑻𝑾-𝑨𝑼𝑻𝑶, 𝑻𝑾-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/tw.png}
+- {name: 𝑱𝑷 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵', proxies: [𝑱𝑷-𝑨𝑼𝑻𝑶, 𝑱𝑷-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/jp.png}
+- {name: 𝑲𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)韩|KR|kr|Korea|🇰🇷', proxies: [𝑲𝑹-𝑨𝑼𝑻𝑶, 𝑲𝑹-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/kr.png}
+- {name: 𝑼𝑺 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)美|US|us|United States|America|🇺🇸', proxies: [𝑼𝑺-𝑨𝑼𝑻𝑶, 𝑼𝑺-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/us.png}
+- {name: 𝑫𝑬 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)德国|Germany|🇩🇪|\bDE\b', proxies: [𝑫𝑬-𝑨𝑼𝑻𝑶, 𝑫𝑬-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/de.png}
+- {name: 𝑼𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)英国|United Kingdom|🇬🇧|\bUK\b', proxies: [𝑼𝑲-𝑨𝑼𝑻𝑶, 𝑼𝑲-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/uk.png}
+- {name: 𝑭𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)法国|France|🇫🇷|\bFR\b', proxies: [𝑭𝑹-𝑨𝑼𝑻𝑶, 𝑭𝑹-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/fr.png}
+- {name: 𝑵𝑳 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)荷兰|Netherlands|🇳🇱|\bNL\b', proxies: [𝑵𝑳-𝑨𝑼𝑻𝑶, 𝑵𝑳-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/Netherlands(2).png}
+- {name: 𝑶𝑻 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: *OT_FILTER, proxies: [𝑶𝑻-𝑨𝑼𝑻𝑶, 𝑶𝑻-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png}
 
-- {name: 𝑨𝑼𝑻𝑶-移动, <<: *AUTO_T, filter: '(?i)Amazon|亚马逊|三网|移动|🇸🇬新加坡专线[2-4]|🇭🇰香港专线[2-4]|🇯🇵日本专线[2-4]|🇯🇵日本[2-4]号'}
-- {name: 𝑭𝑨𝑳𝑳-移动, <<: *FALLBACK_T, filter: '(?i)Amazon|亚马逊|三网|移动|🇸🇬新加坡专线[2-4]|🇭🇰香港专线[2-4]|🇯🇵日本专线[2-4]|🇯🇵日本[2-4]号'}
-
-- {name: 𝑨𝑼𝑻𝑶-联通, <<: *AUTO_T, filter: '(?i)🇩🇪|🇬🇧|🇫🇷|三网|🇯🇵日本[1-6]号|🇯🇵日本专线'}
-- {name: 𝑭𝑨𝑳𝑳-联通, <<: *FALLBACK_T, filter: '(?i)🇩🇪|🇬🇧|🇫🇷|三网|🇯🇵日本[1-6]号|🇯🇵日本专线'}
-
-- {name: 𝑨𝑼𝑻𝑶 亚洲, <<: *AUTO_T, filter: '(?i)🇨🇳|🇯🇵|🇰🇷|𝑻🇼|🇭🇰|🇸🇬'}
-- {name: 𝑨𝑼𝑻𝑶 欧美, <<: *AUTO_T, filter: '(?i)🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|🇧🇷'}
-- {name: 𝑨𝑰 优选, <<: *FALLBACK_T, exclude-filter: *AI_FILTER, filter: '三网|🇯🇵日本[2-6]号|🇸🇬新加坡专线[2-3]|AI'}
-
-- {name: 𝑯𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰', proxies: [𝑯𝑲-𝑨𝑼𝑻𝑶, 𝑯𝑲-𝑭𝑨𝑳𝑳, 𝑯𝑲-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/hk.png}
-- {name: 𝑺𝑮 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬', proxies: [𝑺𝑮-𝑨𝑼𝑻𝑶, 𝑺𝑮-𝑭𝑨𝑳𝑳, 𝑺𝑮-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/sg.png}
-- {name: 𝑻𝑾 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼', proxies: [𝑻𝑾-𝑨𝑼𝑻𝑶, 𝑻𝑾-𝑭𝑨𝑳𝑳, 𝑻𝑾-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/tw.png}
-- {name: 𝑱𝑷 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵', proxies: [𝑱𝑷-𝑨𝑼𝑻𝑶, 𝑱𝑷-𝑭𝑨𝑳𝑳, 𝑱𝑷-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/jp.png}
-- {name: 𝑼𝑺 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)美|US|us|United States|America|🇺🇸', proxies: [𝑼𝑺-𝑨𝑼𝑻𝑶, 𝑼𝑺-𝑭𝑨𝑳𝑳, 𝑼𝑺-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/us.png}
-- {name: 𝑲𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)韩|KR|kr|Korea|🇰🇷', proxies: [𝑲𝑹-𝑨𝑼𝑻𝑶, 𝑲𝑹-𝑭𝑨𝑳𝑳, 𝑲𝑹-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/kr.png}
-- {name: 𝑼𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)英|UK|uk|United Kingdom|🇬🇧', proxies: [𝑼𝑲-𝑨𝑼𝑻𝑶, 𝑼𝑲-𝑭𝑨𝑳𝑳, 𝑼𝑲-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/uk.png}
-- {name: 𝑭𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)法|FR|fr|France|🇫🇷', proxies: [𝑭𝑹-𝑨𝑼𝑻𝑶, 𝑭𝑹-𝑭𝑨𝑳𝑳, 𝑭𝑹-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/fr.png}
-- {name: 𝑫𝑬 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)德|DE|de|Germany|🇩🇪', proxies: [𝑫𝑬-𝑨𝑼𝑻𝑶, 𝑫𝑬-𝑭𝑨𝑳𝑳, 𝑫𝑬-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/de.png}
-- {name: 𝑵𝑳 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)荷|NL|nl|Netherlands|🇳🇱', proxies: [𝑵𝑳-𝑨𝑼𝑻𝑶, 𝑵𝑳-𝑭𝑨𝑳𝑳, 𝑵𝑳-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/Netherlands(2).png}
-- {name: 𝑶𝑻 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: *OT_FILTER, proxies: [𝑶𝑻-𝑨𝑼𝑻𝑶, 𝑶𝑻-𝑭𝑨𝑳𝑳, 𝑶𝑻-𝑳𝑶𝑨𝑫], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png}
+- {name: 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, <<: *AUTO_T}
+- {name: 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, <<: *FALLBACK_T}
+- {name: 𝑨𝒖𝒕𝒐 亚洲, <<: *AUTO_T, filter: '(?i)🇨🇳|🇯🇵|🇰🇷|🇹🇼|🇭🇰|🇸🇬|香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|韩国|KR'}
+- {name: 𝑨𝒖𝒕𝒐 欧美, <<: *AUTO_T, filter: '(?i)🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|🇧🇷|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|America|美国|US'}
+- {name: 𝑭𝒂𝒍𝒍 亚洲, <<: *FALLBACK_T, filter: '(?i)🇨🇳|🇯🇵|🇰🇷|🇹🇼|🇭🇰|🇸🇬|香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|韩国|KR'}
+- {name: 𝑭𝒂𝒍𝒍 欧美, <<: *FALLBACK_T, filter: '(?i)🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|🇧🇷|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|America|美国|US'}
+- {name: 𝑨𝑰 𝑨𝒄𝒄𝒆𝒔𝒔, <<: *FALLBACK_T, exclude-filter: *AI_FILTER, filter: '三网|🇯🇵日本[2-6]号|Amazon|AI'}
 
 - {name: 𝑯𝑲-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰'}
 - {name: 𝑯𝑲-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰'}
-- {name: 𝑯𝑲-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰'}
 - {name: 𝑺𝑮-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬'}
 - {name: 𝑺𝑮-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)新加坡|坡|SG|sg|Singapore|🇸🇬'}
-- {name: 𝑺𝑮-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)新加坡|坡|SG|sg|Singapore|🇸🇬'}
 - {name: 𝑻𝑾-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼'}
 - {name: 𝑻𝑾-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼'}
-- {name: 𝑻𝑾-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼'}
 - {name: 𝑱𝑷-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵'}
 - {name: 𝑱𝑷-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵'}
-- {name: 𝑱𝑷-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵'}
 - {name: 𝑼𝑺-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)美|US|us|United States|America|🇺🇸'}
 - {name: 𝑼𝑺-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)美|US|us|United States|America|🇺🇸'}
-- {name: 𝑼𝑺-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)美|US|us|United States|America|🇺🇸'}
 - {name: 𝑲𝑹-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)韩|KR|kr|Korea|🇰🇷'}
 - {name: 𝑲𝑹-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)韩|KR|kr|Korea|🇰🇷'}
-- {name: 𝑲𝑹-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)韩|KR|kr|Korea|🇰🇷'}
-- {name: 𝑼𝑲-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)英|UK|uk|United Kingdom|🇬🇧'}
-- {name: 𝑼𝑲-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)英|UK|uk|United Kingdom|🇬🇧'}
-- {name: 𝑼𝑲-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)英|UK|uk|United Kingdom|🇬🇧'}
-- {name: 𝑭𝑹-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)法|FR|fr|France|🇫🇷'}
-- {name: 𝑭𝑹-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)法|FR|fr|France|🇫🇷'}
-- {name: 𝑭𝑹-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)法|FR|fr|France|🇫🇷'}
-- {name: 𝑫𝑬-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)德|DE|de|Germany|🇩🇪'}
-- {name: 𝑫𝑬-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)德|DE|de|Germany|🇩🇪'}
-- {name: 𝑫𝑬-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)德|DE|de|Germany|🇩🇪'}
-- {name: 𝑵𝑳-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)荷|NL|nl|Netherlands|🇳🇱'}
-- {name: 𝑵𝑳-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)荷|NL|nl|Netherlands|🇳🇱'}
-- {name: 𝑵𝑳-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: '(?i)荷|NL|nl|Netherlands|🇳🇱'}
+- {name: 𝑫𝑬-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)德国|Germany|🇩🇪|\bDE\b'}
+- {name: 𝑫𝑬-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)德国|Germany|🇩🇪|\bDE\b'}
+- {name: 𝑼𝑲-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)英国|United Kingdom|🇬🇧|\bUK\b'}
+- {name: 𝑼𝑲-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)英国|United Kingdom|🇬🇧|\bUK\b'}
+- {name: 𝑭𝑹-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)法国|France|🇫🇷|\bFR\b'}
+- {name: 𝑭𝑹-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)法国|France|🇫🇷|\bFR\b'}
+- {name: 𝑵𝑳-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)荷兰|Netherlands|🇳🇱|\bNL\b'}
+- {name: 𝑵𝑳-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)荷兰|Netherlands|🇳🇱|\bNL\b'}
 - {name: 𝑶𝑻-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: *OT_FILTER}
 - {name: 𝑶𝑻-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: *OT_FILTER}
-- {name: 𝑶𝑻-𝑳𝑶𝑨𝑫, <<: *LB_T, filter: *OT_FILTER}
 
 _default_mrs_domain: &d {type: http, behavior: domain, format: mrs, interval: 86400}
 _default_mrs_ip: &i {type: http, behavior: ipcidr, format: mrs, interval: 86400}
+_default_yaml_classical: &c {type: http, behavior: classical, format: yaml, interval: 86400}
 
 rule-providers:
   秋风去广告: {<<: *d, url: 'https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs', path: ./ruleset/秋风去广告.mrs}
   AdBlock: {<<: *d, url: 'https://testingcf.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Clash@main/adblock_reject.mrs', path: ./ruleset/AdBlock.mrs}
   STUN: {<<: *d, url: 'https://testingcf.jsdelivr.net/gh/Kwisma/rules@main/rules/mihomo/STUN/STUN_Domain.mrs', path: ./ruleset/STUN.mrs}
   Fakeip-Filter: {<<: *d, url: 'https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs', path: ./ruleset/Fakeip-Filter.mrs}
+  Direct: {<<: *d, url: 'https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Direct.mrs', path: ./ruleset/Direct.mrs}  
   Private: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs', path: ./ruleset/Private.mrs}
   Private_IP: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs', path: ./rules/Private_IP.mrs}
+  Global_IP: {<<: *i, url: 'https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_IP.mrs', path: ./rules/Global_IP.mrs}  
   Global: {<<: *d, url: 'https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_Domain.mrs', path: ./rules/Global.mrs}
-  Global_IP: {<<: *i, url: 'https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_IP.mrs', path: ./rules/Global_IP.mrs}
   CN: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs', path: ./rules/CN.mrs}
-  CN_IP: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs', path: ./rules/CN_IP.mrs}
+  CN_IP: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs', path: ./rules/CN_IP.mrs} 
   AI专属: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs', path: ./ruleset/AI专属.mrs}
   telegram: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs', path: ./ruleset/telegram.mrs}
-  google: {<<: *d, url: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs', path: ./ruleset/google.mrs}
+  telegram_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs', path: ./ruleset/telegram.mrs}  
+  HOK: {<<: *c, url: 'https://raw.githubusercontent.com/mashanghai88/xiaohai/main/classical/HOK.yaml', path: ./ruleset/HOK.yaml}  
+  google: {<<: *d, url: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs', path: ./ruleset/google.mrs}    
+  google_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs', path: ./ruleset/google_ip.mrs}  
 
 rules: 
+  - RULE-SET,HOK,DIRECT
   - RULE-SET,秋风去广告,REJECT
   - RULE-SET,AdBlock,REJECT
   - RULE-SET,STUN,REJECT-DROP
   - RULE-SET,Fakeip-Filter,DIRECT
   - RULE-SET,Private,DIRECT
   - RULE-SET,Private_IP,DIRECT,no-resolve
+  - RULE-SET,Direct,DIRECT
   - RULE-SET,AI专属,𝑨𝑰-𝑶𝒏𝒍𝒚
   - RULE-SET,telegram,𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎
+  - RULE-SET,telegram_ip,𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎,no-resolve
   - RULE-SET,google,𝑮𝒐𝒐𝒈𝒍𝒆
-  - RULE-SET,Global,𝑴𝒂𝒔𝒕𝒆𝒓
-  - RULE-SET,Global_IP,𝑴𝒂𝒔𝒕𝒆𝒓,no-resolve
+  - RULE-SET,google_ip,𝑮𝒐𝒐𝒈𝒍𝒆,no-resolve
+  - RULE-SET,Global,𝑭𝑰𝑵𝑨𝑳
+  - RULE-SET,Global_IP,𝑭𝑰𝑵𝑨𝑳,no-resolve
   - RULE-SET,CN,DIRECT
   - RULE-SET,CN_IP,DIRECT,no-resolve
-  - MATCH,𝑴𝒂𝒔𝒕𝒆𝒓
+  - MATCH,𝑭𝑰𝑵𝑨𝑳
