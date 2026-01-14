@@ -1,3 +1,4 @@
+# upload=0; download=0; total=10737418240; expire=1799884800
 mixed-port: 7890
 allow-lan: true
 mode: rule
