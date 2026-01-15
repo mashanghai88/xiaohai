@@ -76,22 +76,22 @@ dns:
     'cloudflare-dns.com': [1.1.1.1, 1.0.0.1]
     'dns.google': [8.8.8.8, 8.8.4.4]
 proxy-groups:
-- {name: 𝑭𝑰𝑵𝑨𝑳, type: select, proxies: [𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍]}
-- {name: 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍, <<: *SELECT_T, proxies: [𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍]}
-- {name: 𝑮𝒐𝒐𝒈𝒍𝒆, <<: *SELECT_T, proxies: [𝑭𝑰𝑵𝑨𝑳 ,𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍]}
-- {name: 𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎, <<: *SELECT_T, proxies: [𝑭𝑰𝑵𝑨𝑳, 𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍]}
-- {name: 𝑨𝑰-𝑶𝒏𝒍𝒚, <<: *SELECT_T, exclude-filter: *AI_FILTER, proxies: [𝑨𝑰 𝑨𝒄𝒄𝒆𝒔𝒔]}
-- {name: 𝑯𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰', proxies: [𝑯𝑲-𝑨𝑼𝑻𝑶, 𝑯𝑲-𝑭𝑨𝑳𝑳]}
-- {name: 𝑺𝑮 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬', proxies: [𝑺𝑮-𝑨𝑼𝑻𝑶, 𝑺𝑮-𝑭𝑨𝑳𝑳]}
-- {name: 𝑻𝑾 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼', proxies: [𝑻𝑾-𝑨𝑼𝑻𝑶, 𝑻𝑾-𝑭𝑨𝑳𝑳]}
-- {name: 𝑱𝑷 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵', proxies: [𝑱𝑷-𝑨𝑼𝑻𝑶, 𝑱𝑷-𝑭𝑨𝑳𝑳]}
-- {name: 𝑲𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)韩|KR|kr|Korea|🇰🇷', proxies: [𝑲𝑹-𝑨𝑼𝑻𝑶, 𝑲𝑹-𝑭𝑨𝑳𝑳]}
-- {name: 𝑼𝑺 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)美|US|us|United States|America|🇺🇸', proxies: [𝑼𝑺-𝑨𝑼𝑻𝑶, 𝑼𝑺-𝑭𝑨𝑳𝑳]}
-- {name: 𝑫𝑬 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)德国|Germany|🇩🇪|\bDE\b', proxies: [𝑫𝑬-𝑨𝑼𝑻𝑶, 𝑫𝑬-𝑭𝑨𝑳𝑳]}
-- {name: 𝑼𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)英国|United Kingdom|🇬🇧|\bUK\b', proxies: [𝑼𝑲-𝑨𝑼𝑻𝑶, 𝑼𝑲-𝑭𝑨𝑳𝑳]}
-- {name: 𝑭𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)法国|France|🇫🇷|\bFR\b', proxies: [𝑭𝑹-𝑨𝑼𝑻𝑶, 𝑭𝑹-𝑭𝑨𝑳𝑳]}
-- {name: 𝑵𝑳 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)荷兰|Netherlands|🇳🇱|\bNL\b', proxies: [𝑵𝑳-𝑨𝑼𝑻𝑶, 𝑵𝑳-𝑭𝑨𝑳𝑳]}
-- {name: 𝑶𝑻 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: *OT_FILTER, proxies: [𝑶𝑻-𝑨𝑼𝑻𝑶, 𝑶𝑻-𝑭𝑨𝑳𝑳]}
+- {name: 𝑭𝑰𝑵𝑨𝑳, type: select, proxies: [𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png}
+- {name: 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍, <<: *SELECT_T, proxies: [𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Area.png}
+- {name: 𝑮𝒐𝒐𝒈𝒍𝒆, <<: *SELECT_T, proxies: [𝑭𝑰𝑵𝑨𝑳 ,𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Google.png"}
+- {name: 𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎, <<: *SELECT_T, proxies: [𝑭𝑰𝑵𝑨𝑳, 𝑨𝒖𝒕𝒐 亚洲, 𝑨𝒖𝒕𝒐 欧美, 𝑭𝒂𝒍𝒍 亚洲, 𝑭𝒂𝒍𝒍 欧美, 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑲𝑹 𝑵𝒐𝒅𝒆, 𝑫𝑬 𝑵𝒐𝒅𝒆, 𝑼𝑲 𝑵𝒐𝒅𝒆, 𝑭𝑹 𝑵𝒐𝒅𝒆, 𝑵𝑳 𝑵𝒐𝒅𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/Telegrampremium.png"}
+- {name: 𝑨𝑰-𝑶𝒏𝒍𝒚, <<: *SELECT_T, exclude-filter: *AI_FILTER, proxies: [𝑨𝑰 𝑨𝒄𝒄𝒆𝒔𝒔], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/OpenAI.png"}
+- {name: 𝑯𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰', proxies: [𝑯𝑲-𝑨𝑼𝑻𝑶, 𝑯𝑲-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/hk.png}
+- {name: 𝑺𝑮 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬', proxies: [𝑺𝑮-𝑨𝑼𝑻𝑶, 𝑺𝑮-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/sg.png}
+- {name: 𝑻𝑾 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼', proxies: [𝑻𝑾-𝑨𝑼𝑻𝑶, 𝑻𝑾-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/tw.png}
+- {name: 𝑱𝑷 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵', proxies: [𝑱𝑷-𝑨𝑼𝑻𝑶, 𝑱𝑷-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/jp.png}
+- {name: 𝑲𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)韩|KR|kr|Korea|🇰🇷', proxies: [𝑲𝑹-𝑨𝑼𝑻𝑶, 𝑲𝑹-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/kr.png}
+- {name: 𝑼𝑺 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)美|US|us|United States|America|🇺🇸', proxies: [𝑼𝑺-𝑨𝑼𝑻𝑶, 𝑼𝑺-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/us.png}
+- {name: 𝑫𝑬 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)德国|Germany|🇩🇪|\bDE\b', proxies: [𝑫𝑬-𝑨𝑼𝑻𝑶, 𝑫𝑬-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/de.png}
+- {name: 𝑼𝑲 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)英国|United Kingdom|🇬🇧|\bUK\b', proxies: [𝑼𝑲-𝑨𝑼𝑻𝑶, 𝑼𝑲-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/uk.png}
+- {name: 𝑭𝑹 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)法国|France|🇫🇷|\bFR\b', proxies: [𝑭𝑹-𝑨𝑼𝑻𝑶, 𝑭𝑹-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/fr.png}
+- {name: 𝑵𝑳 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)荷兰|Netherlands|🇳🇱|\bNL\b', proxies: [𝑵𝑳-𝑨𝑼𝑻𝑶, 𝑵𝑳-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/Netherlands(2).png}
+- {name: 𝑶𝑻 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: *OT_FILTER, proxies: [𝑶𝑻-𝑨𝑼𝑻𝑶, 𝑶𝑻-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png}
 - {name: 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, <<: *AUTO_T}
 - {name: 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, <<: *FALLBACK_T}
 - {name: 𝑨𝒖𝒕𝒐 亚洲, <<: *AUTO_T, filter: '(?i)🇨🇳|🇯🇵|🇰🇷|🇹🇼|🇭🇰|🇸🇬|香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|韩国|KR'}
