@@ -32,7 +32,7 @@ SUBS: &SUBS [
 
 FILTER: &FILTER '(?i)重置|到期|频道|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网'
 AI_FILTER: &AI_FILTER '(?i)重置|频道|到期|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网|港|HK|hk|Hong Kong|🇭🇰'
-OT_FILTER: &OT_FILTER '^(?i)(?!.*(香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|America|美国|US|Korea|韩国|KR|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|重置|到期|频道|套餐|剩余|有效|订阅|官网)).*$'
+OT_FILTER: &OT_FILTER '^(?i)(?!.*(香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|America|美国|US|重置|到期|频道|套餐|剩余|有效|订阅|官网)).*$'
 
 HEALTH_CHECK: &HEALTH_CHECK 
   {enable: true, interval: 300, lazy: false, url: 'http://www.gstatic.com/generate_204', tolerance: 80, timeout: 5000}
