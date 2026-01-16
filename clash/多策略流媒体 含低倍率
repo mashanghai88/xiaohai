@@ -32,18 +32,21 @@ SUBS: &SUBS [
 
 FILTER: &FILTER '(?i)重置|到期|频道|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网'
 AI_FILTER: &AI_FILTER '(?i)重置|频道|到期|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网|港|HK|hk|Hong Kong|🇭🇰'
-OT_FILTER: &OT_FILTER '^(?i)(?!.*(香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|America|美国|US|Korea|韩国|KR|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL)).*$'
+OT_FILTER: &OT_FILTER '^(?i)(?!.*(香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|America|美国|US|Korea|韩国|KR|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|重置|到期|频道|套餐|剩余|有效|订阅|官网)).*$'
 
 HEALTH_CHECK: &HEALTH_CHECK 
   {enable: true, interval: 300, lazy: false, url: 'http://www.gstatic.com/generate_204', tolerance: 80, timeout: 5000}
 
 SELECT_T: &SELECT_T {type: select, use: *SUBS, exclude-filter: *FILTER}
-AUTO_T: &AUTO_T {type: url-test, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
-FALLBACK_T: &FALLBACK_T {type: fallback, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
-LOAD_B: &LOAD_B {type: load-balance, strategy: round-robin, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
+
+REG_AUTO: &REG_AUTO {type: url-test, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
+REG_FALL: &REG_FALL {type: fallback, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
+REG_LOAD: &REG_LOAD {type: load-balance, strategy: round-robin, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true}
 
 sniffer:
   enable: true
+  force-domain: ["+.v2ex.com"]
+  skip-domain: ["Mijia Cloud", "+.push.apple.com"]
   force-dns-mapping: true
   parse-pure-ip: true
   override-destination: true
@@ -52,188 +55,74 @@ sniffer:
     TLS: {ports: [443, 8443]}
     QUIC: {ports: [443, 8443]}
 
+tun:
+  enable: false
+  device: Meta
+  stack: mixed
+  auto-route: true
+  strict-route: true
+  auto-detect-interface: true
+
 dns:
   enable: true
   ipv6: false
   listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  fake-ip-filter: ["*.lan", "*.local", "RULE-SET:Lan_Domain", "RULE-SET:GoogleFCM_Domain"]
+  fake-ip-filter: ["*.lan", "*.local", "time.*.com", "ntp.*.com", "*.esm.run", "*.jsdelivr.net", "*.jsdelivr.com", "RULE-SET:Lan_Domain", "RULE-SET:GoogleFCM_Domain"]
+  default-nameserver: [223.5.5.5, 119.29.29.29]
   nameserver:
     - https://dns.alidns.com/dns-query
     - https://cloudflare-dns.com/dns-query
+  nameserver-policy:
+    "RULE-SET:ChinaMax_Domain,Microsoft_Domain": [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
 
 proxy-groups:
-  - name: PROXY
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/All.svg"
-    <<: *SELECT_T
-    proxies: [HK, SG, JP, TW, US, WD, LowRate低倍率, 自动选择, 自动回退, 均衡负载, DIRECT]
+  - {name: PROXY, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/All.svg", <<: *SELECT_T, proxies: [HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  
+  - {name: HK, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png", <<: *SELECT_T, filter: "(?i)港|HK|hk|Hong Kong|HongKong", proxies: [香港自动, 香港回退, 香港均衡]}
+  - {name: SG, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png", <<: *SELECT_T, filter: "(?i)新加坡|坡|狮城|SG|Singapore", proxies: [新加坡自动, 新加坡回退, 新加坡均衡]}
+  - {name: JP, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png", <<: *SELECT_T, filter: "(?i)日本|东京|大阪|JP|Japan", proxies: [日本自动, 日本回退, 日本均衡]}
+  - {name: TW, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png", <<: *SELECT_T, filter: "(?i)台|新北|彰化|TW|Taiwan", proxies: [台湾自动, 台湾回退, 台湾均衡]}
+  - {name: US, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png", <<: *SELECT_T, filter: "(?i)美|US|United States|America", proxies: [美国自动, 美国回退, 美国均衡]}
+  - {name: WD, icon: "https://raw.githubusercontent.com/GitMetaio/Surfing/refs/heads/rm/Home/icon/Globe.svg", <<: *SELECT_T, filter: *OT_FILTER}
+  - {name: LowRate低倍率, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png", <<: *SELECT_T, filter: "(?<![0-9])0\\.(?:0[0-9]{1,2}|[1-9])(?![0-9])"}
 
-  - name: HK
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png"
-    type: select
-    proxies: [香港自动, 香港回退, 香港均衡]
-    use: *SUBS
-    filter: "(?i)港|HK|hk|Hong Kong|HongKong|hongkong"
-    exclude-filter: *FILTER
-  - {name: 香港自动, <<: *AUTO_T, filter: "(?i)港|HK|hk|Hong Kong|HongKong|hongkong"}
-  - {name: 香港回退, <<: *FALLBACK_T, filter: "(?i)港|HK|hk|Hong Kong|HongKong|hongkong"}
-  - {name: 香港均衡, <<: *LOAD_B, filter: "(?i)港|HK|hk|Hong Kong|HongKong|hongkong"}
+  - {name: 香港自动, <<: *REG_AUTO, filter: "(?i)港|HK|hk|Hong Kong|HongKong"}
+  - {name: 香港回退, <<: *REG_FALL, filter: "(?i)港|HK|hk|Hong Kong|HongKong"}
+  - {name: 香港均衡, <<: *REG_LOAD, filter: "(?i)港|HK|hk|Hong Kong|HongKong"}
+  - {name: 新加坡自动, <<: *REG_AUTO, filter: "(?i)新加坡|坡|狮城|SG|Singapore"}
+  - {name: 新加坡回退, <<: *REG_FALL, filter: "(?i)新加坡|坡|狮城|SG|Singapore"}
+  - {name: 新加坡均衡, <<: *REG_LOAD, filter: "(?i)新加坡|坡|狮城|SG|Singapore"}
+  - {name: 日本自动, <<: *REG_AUTO, filter: "(?i)日本|东京|大阪|JP|Japan"}
+  - {name: 日本回退, <<: *REG_FALL, filter: "(?i)日本|东京|大阪|JP|Japan"}
+  - {name: 日本均衡, <<: *REG_LOAD, filter: "(?i)日本|东京|大阪|JP|Japan"}
+  - {name: 台湾自动, <<: *REG_AUTO, filter: "(?i)台|新北|彰化|TW|Taiwan"}
+  - {name: 台湾回退, <<: *REG_FALL, filter: "(?i)台|新北|彰化|TW|Taiwan"}
+  - {name: 台湾均衡, <<: *REG_LOAD, filter: "(?i)台|新北|彰化|TW|Taiwan"}
+  - {name: 美国自动, <<: *REG_AUTO, filter: "(?i)美|US|United States|America"}
+  - {name: 美国回退, <<: *REG_FALL, filter: "(?i)美|US|United States|America"}
+  - {name: 美国均衡, <<: *REG_LOAD, filter: "(?i)美|US|United States|America"}
 
-  - name: SG
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png"
-    type: select
-    proxies: [新加坡自动, 新加坡回退, 新加坡均衡]
-    use: *SUBS
-    filter: "(?i)新加坡|坡|狮城|SG|Singapore"
-    exclude-filter: *FILTER
-  - {name: 新加坡自动, <<: *AUTO_T, filter: "(?i)新加坡|坡|狮城|SG|Singapore"}
-  - {name: 新加坡回退, <<: *FALLBACK_T, filter: "(?i)新加坡|坡|狮城|SG|Singapore"}
-  - {name: 新加坡均衡, <<: *LOAD_B, filter: "(?i)新加坡|坡|狮城|SG|Singapore"}
+  - {name: ADS, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/No-ads-all.svg", type: select, proxies: [REJECT, PROXY]}
+  - {name: Game, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Steam.svg", type: select, proxies: [DIRECT, PROXY]}
+  - {name: Apple, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Apple.svg", type: select, proxies: [DIRECT, PROXY]}
+  - {name: Microsoft, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Microsoft.svg", type: select, proxies: [DIRECT, PROXY]}
+  - {name: GoogleFCM, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/GoogleFCM.svg", type: select, proxies: [DIRECT, PROXY]}
+  - {name: Emby, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Emby.png", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Telegram, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Telegram.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Discord, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Discord.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Spotify, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Spotify.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: TikTok, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/TikTok.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: YouTube, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/YouTube.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Netflix, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Netflix.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Google, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Google.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Facebook, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Facebook.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: OpenAI, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/OpenAI.svg", type: select, use: *SUBS, exclude-filter: *AI_FILTER, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: GitHub, icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/github(1).png", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Twitter(X), icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Twitter.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
 
-  - name: JP
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png"
-    type: select
-    proxies: [日本自动, 日本回退, 日本均衡]
-    use: *SUBS
-    filter: "(?i)日本|川日|东京|大阪|JP|Japan"
-    exclude-filter: *FILTER
-  - {name: 日本自动, <<: *AUTO_T, filter: "(?i)日本|川日|东京|大阪|JP|Japan"}
-  - {name: 日本回退, <<: *FALLBACK_T, filter: "(?i)日本|川日|东京|大阪|JP|Japan"}
-  - {name: 日本均衡, <<: *LOAD_B, filter: "(?i)日本|川日|东京|大阪|JP|Japan"}
-
-  - name: TW
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png"
-    type: select
-    proxies: [台湾自动, 台湾回退, 台湾均衡]
-    use: *SUBS
-    filter: "(?i)台|新北|彰化|TW|Taiwan"
-    exclude-filter: *FILTER
-  - {name: 台湾自动, <<: *AUTO_T, filter: "(?i)台|新北|彰化|TW|Taiwan"}
-  - {name: 台湾回退, <<: *FALLBACK_T, filter: "(?i)台|新北|彰化|TW|Taiwan"}
-  - {name: 台湾均衡, <<: *LOAD_B, filter: "(?i)台|新北|彰化|TW|Taiwan"}
-
-  - name: US
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png"
-    type: select
-    proxies: [美国自动, 美国回退, 美国均衡]
-    use: *SUBS
-    filter: "(?i)美|US|United States|America"
-    exclude-filter: *FILTER
-  - {name: 美国自动, <<: *AUTO_T, filter: "(?i)美|US|United States|America"}
-  - {name: 美国回退, <<: *FALLBACK_T, filter: "(?i)美|US|United States|America"}
-  - {name: 美国均衡, <<: *LOAD_B, filter: "(?i)美|US|United States|America"}
-
-  - name: WD
-    icon: "https://raw.githubusercontent.com/GitMetaio/Surfing/refs/heads/rm/Home/icon/Globe.svg"
-    <<: *SELECT_T
-    filter: *OT_FILTER
-
-  - name: LowRate低倍率
-    <<: *SELECT_T
-    filter: "(?<![0-9])0\\.(?:0[0-9]{1,2}|[1-9])(?![0-9])"
-
-  - name: OpenAI
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/OpenAI.svg"
-    type: select
-    use: *SUBS
-    exclude-filter: *AI_FILTER
-    proxies: [PROXY, HK, SG, JP, US, DIRECT]
-
-  - name: YouTube
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/YouTube.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, JP, US, SG, HK, TW, DIRECT]
-
-  - name: Telegram
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Telegram.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, SG, HK, JP, US, DIRECT]
-
-  - name: Netflix
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Netflix.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, HK, SG, JP, US, TW, DIRECT]
-
-  - name: Spotify
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Spotify.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, DIRECT]
-
-  - name: TikTok
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/TikTok.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, SG, JP, HK, TW, DIRECT]
-
-  - name: Facebook
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Facebook.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, HK, SG, JP, US, DIRECT]
-
-  - name: Twitter(X)
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Twitter.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, HK, SG, JP, US, DIRECT]
-
-  - name: GitHub
-    icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/github(1).png"
-    <<: *SELECT_T
-    proxies: [PROXY, HK, SG, JP, US, DIRECT]
-
-  - name: Discord
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Discord.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, HK, SG, JP, US, DIRECT]
-
-  - name: Emby
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Emby.png"
-    <<: *SELECT_T
-    proxies: [PROXY, HK, SG, JP, US, TW, DIRECT]
-
-  - name: Game
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Steam.svg"
-    type: select
-    proxies: [DIRECT, PROXY]
-
-  - name: Apple
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Apple.svg"
-    type: select
-    proxies: [DIRECT, PROXY]
-
-  - name: Microsoft
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Microsoft.svg"
-    type: select
-    proxies: [DIRECT, PROXY]
-
-  - name: GoogleFCM
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/GoogleFCM.svg"
-    type: select
-    proxies: [DIRECT, PROXY]
-
-  - name: ADS
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/No-ads-all.svg"
-    type: select
-    proxies: [REJECT, PROXY]
-
-  - name: 自动选择
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg"
-    <<: *AUTO_T
-    hidden: false
-
-  - name: 自动回退
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg"
-    <<: *FALLBACK_T
-    hidden: false
-
-  - name: 均衡负载
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg"
-    <<: *LOAD_B
-    hidden: false
-
-  - name: FINAL
-    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/HBASE-copy.svg"
-    <<: *SELECT_T
-    proxies: [PROXY, DIRECT]
+  - {name: FINAL, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/HBASE-copy.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
 
 rule-anchor:
   YAML: &YAML {type: http, behavior: classical, format: yaml, interval: 86400}
@@ -249,23 +138,19 @@ rule-providers:
   Global_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Global/Global_OCD_Domain.mrs", path: ./rules/Global_OCD_Domain.mrs}
   Global_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Global/Global_OCD_IP.mrs", path: ./rules/Global_OCD_IP.mrs}
   AWAvenue_Ads_Rule: {<<: *YAML, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main//Filters/AWAvenue-Ads-Rule-Clash.yaml", path: ./ruleset/AWAvenue_Ads_Rule_Clash.yaml}
-  OpenAI_Domain: {<<: *Domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs", path: ./rules/OpenAI.mrs}
-  OpenAI_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/OpenAI/OpenAI_OCD_IP.mrs", path: ./rules/OpenAI_IP.mrs}
   Game_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Game/Game_OCD_Domain.mrs", path: ./rules/Game_OCD_Domain.mrs}
   Game_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Game/Game_OCD_IP.mrs", path: ./rules/Game_OCD_IP.mrs}
   GameDownload_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Game/GameDownload/GameDownload_OCD_Domain.mrs", path: ./rules/GameDownload_OCD_Domain.mrs}
   Emby_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Emby/Emby_OCD_Domain.mrs", path: ./rules/Emby_Domain.mrs}
   TikTok_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/TikTok/TikTok_OCD_Domain.mrs", path: ./rules/TikTok.mrs}
-  Telegram_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Telegram/Telegram_OCD_Domain.mrs", path: ./rules/Telegram.mrs}
-  Telegram_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Telegram/Telegram_OCD_IP.mrs", path: ./rules/Telegram_IP.mrs}
-  YouTube_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/YouTube/YouTube_OCD_Domain.mrs", path: ./rules/YouTube.mrs}
-  YouTube_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/YouTube/YouTube_OCD_IP.mrs", path: ./rules/YouTube_IP.mrs}
-  Netflix_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Netflix/Netflix_OCD_Domain.mrs", path: ./rules/Netflix.mrs}
-  Netflix_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Netflix/Netflix_OCD_IP.mrs", path: ./rules/Netflix_IP.mrs}
   Spotify_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Spotify/Spotify_OCD_Domain.mrs", path: ./rules/Spotify.mrs}
   Spotify_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Spotify/Spotify_OCD_IP.mrs", path: ./rules/Spotify_IP.mrs}
   Facebook_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Facebook/Facebook_OCD_Domain.mrs", path: ./rules/Facebook.mrs}
   Facebook_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Facebook/Facebook_OCD_IP.mrs", path: ./rules/Facebook_IP.mrs}
+  Telegram_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Telegram/Telegram_OCD_Domain.mrs", path: ./rules/Telegram.mrs}
+  Telegram_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Telegram/Telegram_OCD_IP.mrs", path: ./rules/Telegram_IP.mrs}
+  YouTube_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/YouTube/YouTube_OCD_Domain.mrs", path: ./rules/YouTube.mrs}
+  YouTube_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/YouTube/YouTube_OCD_IP.mrs", path: ./rules/YouTube_IP.mrs}
   Google_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Google/Google_OCD_Domain.mrs", path: ./rules/Google.mrs}
   Google_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Google/Google_OCD_IP.mrs", path: ./rules/Google_IP.mrs}
   GoogleFCM_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/GoogleFCM/GoogleFCM_OCD_Domain.mrs", path: ./rules/GoogleFCM.mrs}
@@ -273,6 +158,11 @@ rule-providers:
   Microsoft_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Microsoft/Microsoft_OCD_Domain.mrs", path: ./rules/Microsoft.mrs}
   Apple_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Apple/Apple_OCD_Domain.mrs", path: ./rules/Apple.mrs}
   Apple_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Apple/Apple_OCD_IP.mrs", path: ./rules/Apple_IP.mrs}
+  OpenAI_Domain: {<<: *Domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs", path: ./rules/OpenAI.mrs}
+  OpenAI_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/OpenAI/OpenAI_OCD_IP.mrs", path: ./rules/OpenAI_IP.mrs}
+  Netflix_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Netflix/Netflix_OCD_Domain.mrs", path: ./rules/Netflix.mrs}
+  Netflix_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Netflix/Netflix_OCD_IP.mrs", path: ./rules/Netflix_IP.mrs}
+  Discord_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Discord/Discord_OCD_Domain.mrs", path: ./rules/Discord.mrs}
   GitHub_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/GitHub/GitHub_OCD_Domain.mrs", path: ./rules/GitHub.mrs}
   Twitter_Domain: {<<: *Domain, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Twitter/Twitter_OCD_Domain.mrs", path: ./rules/Twitter.mrs}
   Twitter_IP: {<<: *IPCIDR, url: "https://cdn.jsdelivr.net/gh/Ayanami0xL1l1th/Rule-for-OCD@master/rule/Clash/Twitter/Twitter_OCD_IP.mrs", path: ./rules/Twitter_IP.mrs}
@@ -287,6 +177,9 @@ rules:
   - RULE-SET,Game_Domain,Game
   - RULE-SET,Game_IP,Game
   - RULE-SET,GameDownload_Domain,Game
+  - DOMAIN-SUFFIX,esm.run,DIRECT
+  - DOMAIN-SUFFIX,jsdelivr.com,DIRECT
+  - DOMAIN-SUFFIX,jsdelivr.net,DIRECT
   - RULE-SET,ChinaMax_Domain,DIRECT
   - RULE-SET,ChinaMax_IP,DIRECT
   - RULE-SET,OpenAI_Domain,OpenAI
@@ -296,11 +189,14 @@ rules:
   - RULE-SET,GoogleFCM_IP,GoogleFCM
   - RULE-SET,Emby_Domain,Emby
   - RULE-SET,GitHub_Domain,GitHub
+  - RULE-SET,Discord_Domain,Discord
   - RULE-SET,TikTok_Domain,TikTok
   - RULE-SET,Twitter_Domain,Twitter(X)
   - RULE-SET,Twitter_IP,Twitter(X)
   - RULE-SET,YouTube_Domain,YouTube
   - RULE-SET,YouTube_IP,YouTube
+  - RULE-SET,Google_Domain,Google
+  - RULE-SET,Google_IP,Google
   - RULE-SET,Netflix_Domain,Netflix
   - RULE-SET,Netflix_IP,Netflix
   - RULE-SET,Spotify_Domain,Spotify
@@ -311,6 +207,7 @@ rules:
   - RULE-SET,Apple_IP,Apple
   - RULE-SET,Telegram_Domain,Telegram
   - RULE-SET,Telegram_IP,Telegram,no-resolve
+  - DOMAIN,browserleaks.com,FINAL
   - RULE-SET,Global_Domain,PROXY
   - RULE-SET,Global_IP,PROXY
   - MATCH,FINAL
