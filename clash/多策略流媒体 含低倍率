@@ -1,4 +1,4 @@
-Mixed-port: 7890
+mixed-port: 7890
 ipv6: false
 mode: Rule
 allow-lan: true
@@ -140,33 +140,100 @@ proxy-groups:
     exclude-filter: *AI_FILTER
     proxies: [PROXY, HK, SG, JP, US, DIRECT]
 
+  - name: YouTube
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/YouTube.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, JP, US, SG, HK, TW, DIRECT]
+
+  - name: Telegram
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Telegram.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, SG, HK, JP, US, DIRECT]
+
+  - name: Netflix
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Netflix.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, HK, SG, JP, US, TW, DIRECT]
+
+  - name: Spotify
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Spotify.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, DIRECT]
+
+  - name: TikTok
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/TikTok.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, SG, JP, HK, TW, DIRECT]
+
+  - name: Facebook
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Facebook.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, HK, SG, JP, US, DIRECT]
+
+  - name: Twitter(X)
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Twitter.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, HK, SG, JP, US, DIRECT]
+
+  - name: GitHub
+    icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/github(1).png"
+    <<: *SELECT_T
+    proxies: [PROXY, HK, SG, JP, US, DIRECT]
+
+  - name: Discord
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Discord.svg"
+    <<: *SELECT_T
+    proxies: [PROXY, HK, SG, JP, US, DIRECT]
+
+  - name: Emby
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Emby.png"
+    <<: *SELECT_T
+    proxies: [PROXY, HK, SG, JP, US, TW, DIRECT]
+
+  - name: Game
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Steam.svg"
+    type: select
+    proxies: [DIRECT, PROXY]
+
+  - name: Apple
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Apple.svg"
+    type: select
+    proxies: [DIRECT, PROXY]
+
+  - name: Microsoft
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Microsoft.svg"
+    type: select
+    proxies: [DIRECT, PROXY]
+
+  - name: GoogleFCM
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/GoogleFCM.svg"
+    type: select
+    proxies: [DIRECT, PROXY]
+
+  - name: ADS
+    icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/No-ads-all.svg"
+    type: select
+    proxies: [REJECT, PROXY]
+
   - name: 自动选择
     icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg"
     <<: *AUTO_T
+    hidden: false
 
   - name: 自动回退
     icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg"
     <<: *FALLBACK_T
+    hidden: false
 
   - name: 均衡负载
     icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg"
     <<: *LOAD_B
+    hidden: false
 
-  - {name: YouTube, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/YouTube.svg", <<: *SELECT_T, proxies: [PROXY, JP, US, SG, DIRECT]}
-  - {name: Telegram, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Telegram.svg", <<: *SELECT_T, proxies: [PROXY, SG, HK, JP, DIRECT]}
-  - {name: Netflix, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Netflix.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, US, DIRECT]}
-  - {name: Spotify, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Spotify.svg", <<: *SELECT_T, proxies: [PROXY, DIRECT]}
-  - {name: TikTok, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/TikTok.svg", <<: *SELECT_T, proxies: [PROXY, SG, JP, DIRECT]}
-  - {name: Game, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Steam.svg", type: select, proxies: [DIRECT, PROXY]}
-  - {name: Apple, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Apple.svg", type: select, proxies: [DIRECT, PROXY]}
-  - {name: Microsoft, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Microsoft.svg", type: select, proxies: [DIRECT, PROXY]}
-  - {name: GoogleFCM, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/GoogleFCM.svg", type: select, proxies: [DIRECT, PROXY]}
-  - {name: ADS, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/No-ads-all.svg", type: select, proxies: [REJECT, PROXY]}
   - name: FINAL
     icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/HBASE-copy.svg"
     <<: *SELECT_T
     proxies: [PROXY, DIRECT]
-
 
 rule-anchor:
   YAML: &YAML {type: http, behavior: classical, format: yaml, interval: 86400}
@@ -228,18 +295,18 @@ rules:
   - RULE-SET,GoogleFCM_Domain,GoogleFCM
   - RULE-SET,GoogleFCM_IP,GoogleFCM
   - RULE-SET,Emby_Domain,Emby
-  - RULE-SET,GitHub_Domain,OpenAI
+  - RULE-SET,GitHub_Domain,GitHub
   - RULE-SET,TikTok_Domain,TikTok
-  - RULE-SET,Twitter_Domain,OpenAI
-  - RULE-SET,Twitter_IP,OpenAI
+  - RULE-SET,Twitter_Domain,Twitter(X)
+  - RULE-SET,Twitter_IP,Twitter(X)
   - RULE-SET,YouTube_Domain,YouTube
   - RULE-SET,YouTube_IP,YouTube
   - RULE-SET,Netflix_Domain,Netflix
   - RULE-SET,Netflix_IP,Netflix
   - RULE-SET,Spotify_Domain,Spotify
   - RULE-SET,Spotify_IP,Spotify
-  - RULE-SET,Facebook_Domain,PROXY
-  - RULE-SET,Facebook_IP,PROXY
+  - RULE-SET,Facebook_Domain,Facebook
+  - RULE-SET,Facebook_IP,Facebook
   - RULE-SET,Apple_Domain,Apple
   - RULE-SET,Apple_IP,Apple
   - RULE-SET,Telegram_Domain,Telegram
