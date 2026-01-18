@@ -103,7 +103,7 @@ proxy-groups:
 - {name: 𝑯𝑲-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)港|HK|hk|Hong Kong|🇭🇰'}
 - {name: 𝑺𝑮-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬'}
 - {name: 𝑺𝑮-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)新加坡|坡|SG|sg|Singapore|🇸🇬'}
-- {name: 𝑻𝑾-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼'}
+- {name: 𝑻𝑾-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)台|TW|tw|Taiwan|🇹🇼'}
 - {name: 𝑻𝑾-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼'}
 - {name: 𝑱𝑷-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵'}
 - {name: 𝑱𝑷-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: '(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵'}
