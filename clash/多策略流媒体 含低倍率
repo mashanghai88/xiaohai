@@ -109,20 +109,20 @@ proxy-groups:
   - {name: Apple, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Apple.svg", type: select, proxies: [DIRECT, PROXY]}
   - {name: Microsoft, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Microsoft.svg", type: select, proxies: [DIRECT, PROXY]}
   - {name: GoogleFCM, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/GoogleFCM.svg", type: select, proxies: [DIRECT, PROXY]}
-  - {name: Emby, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Emby.png", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: Telegram, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Telegram.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: Discord, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Discord.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: Spotify, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Spotify.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: TikTok, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/TikTok.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: YouTube, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/YouTube.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: Netflix, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Netflix.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: Google, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Google.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: Facebook, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Facebook.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: OpenAI, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/OpenAI.svg", type: select, use: *SUBS, exclude-filter: *AI_FILTER, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: GitHub, icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/github(1).png", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
-  - {name: Twitter(X), icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Twitter.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: Emby, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Emby.png", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: Telegram, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Telegram.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: Discord, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Discord.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: Spotify, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Spotify.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: TikTok, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/TikTok.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: YouTube, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/YouTube.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: Netflix, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Netflix.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: Google, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Google.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: Facebook, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Facebook.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: OpenAI, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/OpenAI.svg", type: select, use: *SUBS, exclude-filter: *AI_FILTER, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: GitHub, icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/github(1).png", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
+  - {name: Twitter(X), icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Twitter.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
 
-  - {name: FINAL, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/HBASE-copy.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, DIRECT]}
+  - {name: FINAL, icon: "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/HBASE-copy.svg", <<: *SELECT_T, proxies: [PROXY, HK, SG, JP, TW, US, WD, LowRate低倍率, DIRECT]}
 
 rule-anchor:
   YAML: &YAML {type: http, behavior: classical, format: yaml, interval: 86400}
