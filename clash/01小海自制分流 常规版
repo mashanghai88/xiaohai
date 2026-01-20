@@ -94,7 +94,7 @@ proxy-groups:
 - {name: 𝑶𝑻 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: *OT_FILTER, proxies: [𝑶𝑻-𝑨𝑼𝑻𝑶, 𝑶𝑻-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png}
 - {name: 𝑨𝒍𝒍 𝑨𝒖𝒕𝒐, <<: *AUTO_T}
 - {name: 𝑨𝒍𝒍 𝑭𝒂𝒍𝒍, <<: *FALLBACK_T}
-- {name: 𝑨𝒖𝒕𝒐 亚洲, <<: *AUTO_T, filter: '(?i)🇨🇳|🇯🇵|🇰🇷|🇹🇼|🇭🇰|🇸🇬|香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|韩国|KR'}
+- {name: 𝑨𝒖𝒕𝒐 亚洲, <<: *AUTO_T, filter: '(?i)🇯🇵|🇰🇷|🇹🇼|🇭🇰|🇸🇬|香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|韩国|KR'}
 - {name: 𝑨𝒖𝒕𝒐 欧美, <<: *AUTO_T, filter: '(?i)🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|🇧🇷|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|America|美国|US'}
 - {name: 𝑭𝒂𝒍𝒍 亚洲, <<: *FALLBACK_T, filter: '(?i)🇨🇳|🇯🇵|🇰🇷|🇹🇼|🇭🇰|🇸🇬|香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|韩国|KR'}
 - {name: 𝑭𝒂𝒍𝒍 欧美, <<: *FALLBACK_T, filter: '(?i)🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|🇧🇷|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|America|美国|US'}
