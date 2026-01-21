@@ -18,10 +18,17 @@ profile:
   store-fake-ip: true
   smart-collector-size: 100
 proxy-providers:
-"INSERT_PROVIDERS"
-SUBS: &SUBS [
-"INSERT_USE"
-]
+  Sub_1:
+    type: http
+    interval: 21600
+    url: "你的订阅链接"
+    path: ./providers/Sub_1.yaml
+  Sub_2:
+    type: http
+    interval: 21600
+    url: "你的订阅链接"
+    path: ./providers/Sub_2.yaml
+SUBS: &SUBS [Sub_1, Sub_2]
 FILTER: &FILTER '(?i)重置|到期|频道|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网'
 AI_FILTER: &AI_FILTER '(?i)重置|频道|到期|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网|港|HK|hk|Hong Kong|🇭🇰'
 OT_FILTER: &OT_FILTER '^(?i)(?!.*(香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|America|美国|US|Korea|韩国|KR|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL)).*$'
