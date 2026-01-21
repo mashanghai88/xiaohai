@@ -138,12 +138,10 @@ rule-providers:
   CN_IP: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs', path: ./rules/CN_IP.mrs} 
   AI专属: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs', path: ./ruleset/AI专属.mrs}
   telegram: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs', path: ./ruleset/telegram.mrs}
-  telegram_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs', path: ./ruleset/telegram.mrs}  
-  HOK: {<<: *c, url: 'https://raw.githubusercontent.com/mashanghai88/xiaohai/main/classical/HOK.yaml', path: ./ruleset/HOK.yaml}  
+  telegram_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs', path: ./ruleset/telegram.mrs}   
   google: {<<: *d, url: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs', path: ./ruleset/google.mrs}    
   google_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs', path: ./ruleset/google_ip.mrs}  
 rules: 
-  - RULE-SET,HOK,DIRECT
   - RULE-SET,秋风去广告,REJECT
   - RULE-SET,AdBlock,REJECT
   - RULE-SET,STUN,REJECT-DROP
