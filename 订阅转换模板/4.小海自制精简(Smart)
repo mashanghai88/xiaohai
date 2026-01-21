@@ -102,7 +102,7 @@ dns:
     'dns.google': [8.8.8.8, 8.8.4.4]
 
 proxy-groups:
-- {name: 𝑴𝒂𝒔𝒕𝒆𝒓, type: select, proxies: [𝑺𝒎𝒂𝒓𝒕 优, 𝑺𝒎𝒂𝒓𝒕 𝑨𝒔𝒊𝒂, 𝑺𝒎𝒂𝒓𝒕 𝑬𝒖𝒖𝒔, 𝑨𝒖𝒕𝒐 𝑨𝒔𝒊𝒂, 𝑨𝒖𝒕𝒐 𝑬𝒖𝒖𝒔, 𝑭𝒂𝒍𝒍 𝑨𝒔𝒊𝒂, 𝑭𝒂𝒍𝒍 𝑬𝒖𝒖𝒔, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑬𝑼 𝑵𝒐𝒅𝒆, 𝑳𝒐𝒘𝑹𝒂𝒕𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png}
+- {name: 𝑴𝒂𝒔𝒕𝒆𝒓, type: select, proxies: [𝑺𝒎𝒂𝒓𝒕 𝑨𝒔𝒊𝒂, 𝑺𝒎𝒂𝒓𝒕 𝑬𝒖𝒖𝒔, 𝑨𝒖𝒕𝒐 𝑨𝒔𝒊𝒂, 𝑨𝒖𝒕𝒐 𝑬𝒖𝒖𝒔, 𝑭𝒂𝒍𝒍 𝑨𝒔𝒊𝒂, 𝑭𝒂𝒍𝒍 𝑬𝒖𝒖𝒔, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑬𝑼 𝑵𝒐𝒅𝒆, 𝑳𝒐𝒘𝑹𝒂𝒕𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆, 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png}
 
 - {name: 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍, <<: *SELECT_T, proxies: [𝑺𝒎𝒂𝒓𝒕 𝑮𝒍𝒐𝒃𝒂𝒍, 𝑨𝒖𝒕𝒐 𝑮𝒍𝒐𝒃𝒂𝒍, 𝑭𝒂𝒍𝒍 𝑮𝒍𝒐𝒃𝒂𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Area.png}
 
@@ -119,7 +119,6 @@ proxy-groups:
 - {name: 𝑬𝑼 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: '(?i)🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL', proxies: [𝑬𝑼-𝑬𝑫𝑮𝑬, 𝑬𝑼-𝑨𝑼𝑻𝑶, 𝑬𝑼-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/EuropeanUnion(2).png}
 - {name: 𝑶𝑻 𝑵𝒐𝒅𝒆, <<: *SELECT_T, filter: *OT_FILTER, proxies: [𝑶𝑻-𝑬𝑫𝑮𝑬, 𝑶𝑻-𝑨𝑼𝑻𝑶, 𝑶𝑻-𝑭𝑨𝑳𝑳], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png}
 
-- {name: 𝑺𝒎𝒂𝒓𝒕 优, <<: *SMART_T, filter: '(?i)新加坡三网专线|🇯🇵日本[1-6]号|Singapore|德国|Japan', policy-priority: "Singapore:5;Japan:4"}
 - {name: 𝑺𝒎𝒂𝒓𝒕 𝑮𝒍𝒐𝒃𝒂𝒍, <<: *SMART_T}
 - {name: 𝑨𝒖𝒕𝒐 𝑮𝒍𝒐𝒃𝒂𝒍, <<: *AUTO_T}
 - {name: 𝑭𝒂𝒍𝒍 𝑮𝒍𝒐𝒃𝒂𝒍, <<: *FALLBACK_T}
@@ -175,12 +174,10 @@ rule-providers:
   AI专属: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs', path: ./ruleset/AI专属.mrs}
   telegram: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs', path: ./ruleset/telegram.mrs}
   telegram_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs', path: ./ruleset/telegram.mrs}  
-  HOK: {<<: *c, url: 'https://raw.githubusercontent.com/mashanghai88/xiaohai/main/classical/HOK.yaml', path: ./ruleset/HOK.yaml}  
   google: {<<: *d, url: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs', path: ./ruleset/google.mrs}    
   google_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs', path: ./ruleset/google_ip.mrs}  
 
 rules: 
-  - RULE-SET,HOK,DIRECT
   - RULE-SET,秋风去广告,REJECT
   - RULE-SET,AdBlock,REJECT
   - RULE-SET,STUN,REJECT-DROP
