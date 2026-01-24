@@ -3,7 +3,7 @@ const EX_INFO = "(?i)重置|到期|频道|套餐|剩余|有效|灾|网易|Neteas
 const EU_REG = "(?i)🇬🇧|英国|UK|🇫🇷|法国|FR|🇩🇪|德国|DE|🇳🇱|荷兰|NL|𝘐𝘛|意大利|Italy|𝘌𝘚|西班牙|Spain|𝘊𝘏|瑞士|Switzerland|𝘚𝘌|瑞典|Sweden|𝘗𝘓|波兰|Poland|𝘈𝘛|奥地利|Austria|𝘐𝘌|爱尔兰|Ireland|𝘉𝘌|比利时|Belgium";
 const ALL_REGION_REG = `(?i)香港|HK|Hong|台湾|TW|Tai|Japan|日本|JP|Singapore|新加坡|SG|States|美国|US|America|${EU_REG}`;
 
-const ruleProviderCommon = { "interval": 86400, "proxy": "N_MASTER", "type": "http", "format": "mrs", "behavior": "classical" };
+const ruleProviderCommon = { "interval": 86400, "proxy": "𝘔𝘢𝘴𝘵𝘦𝘳", "type": "http", "format": "mrs", "behavior": "classical" };
 const groupBaseOption = { "interval": 300, "url": "http://www.gstatic.com/generate_204", "lazy": true, "tolerance": 80, "timeout": 5000, "max-failed-times": 3, "include-all": true };
 
 const main = (config) => {
