@@ -88,7 +88,7 @@ proxy-groups:
 
 - {name: 𝑪𝒐𝒓𝒆 𝑷𝒐𝒐𝒍, <<: *SELECT_T, proxies: [𝑨𝒖𝒕𝒐 𝑮𝒍𝒐𝒃𝒂𝒍, 𝑭𝒂𝒍𝒍 𝑮𝒍𝒐𝒃𝒂𝒍], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Area.png}
 
-- {name: 𝑨𝑰-𝑶𝒏𝒍𝒚, <<: *SELECT_T, exclude-filter: *AI_FILTER, proxies: [𝑨𝑰 𝑨𝒄𝒄𝒆𝒔𝒔], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/OpenAI.png"}
+- {name: 𝑨𝑰-𝑶𝒏𝒍𝒚, <<: *SELECT_T, exclude-filter: *AI_FILTER, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/OpenAI.png"}
 
 - {name: 𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎, <<: *SELECT_T, proxies: [𝑴𝒂𝒔𝒕𝒆𝒓, 𝑯𝑲 𝑵𝒐𝒅𝒆, 𝑺𝑮 𝑵𝒐𝒅𝒆, 𝑻𝑾 𝑵𝒐𝒅𝒆, 𝑱𝑷 𝑵𝒐𝒅𝒆, 𝑼𝑺 𝑵𝒐𝒅𝒆, 𝑬𝑼 𝑵𝒐𝒅𝒆, 𝑳𝒐𝒘𝑹𝒂𝒕𝒆, 𝑶𝑻 𝑵𝒐𝒅𝒆], icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/Telegrampremium.png"}
 
@@ -107,7 +107,6 @@ proxy-groups:
 - {name: 𝑨𝒖𝒕𝒐 𝑬𝒖𝒖𝒔, <<: *AUTO_T, filter: '(?i)🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|🇧🇷|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|America|美国|US'}
 - {name: 𝑭𝒂𝒍𝒍 𝑨𝒔𝒊𝒂, <<: *FALLBACK_T, filter: '(?i)🇨🇳|🇯🇵|🇰🇷|🇹🇼|🇭🇰|🇸🇬|香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singapore|新加坡|SG|韩国|KR'}
 - {name: 𝑭𝒂𝒍𝒍 𝑬𝒖𝒖𝒔, <<: *FALLBACK_T, filter: '(?i)🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|🇧🇷|UK|英国|United Kingdom|France|法国|\bFR\b|Germany|德国|DE|Netherlands|荷兰|NL|America|美国|US'}
-- {name: 𝑨𝑰 𝑨𝒄𝒄𝒆𝒔𝒔, <<: *FALLBACK_T, exclude-filter: *AI_FILTER, filter: '三网|🇯🇵日本[2-6]号|Amazon|AI'}
 
 - {name: 𝑳𝒐𝒘𝑹𝒂𝒕𝒆-𝑨𝑼𝑻𝑶, <<: *AUTO_T, filter: "(?<![0-9])0\\.(?:0[0-9]{1,2}|[1-9])(?![0-9])"}
 - {name: 𝑳𝒐𝒘𝑹𝒂𝒕𝒆-𝑭𝑨𝑳𝑳, <<: *FALLBACK_T, filter: "(?<![0-9])0\\.(?:0[0-9]{1,2}|[1-9])(?![0-9])"}
