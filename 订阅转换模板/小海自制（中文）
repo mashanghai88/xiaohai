@@ -14,6 +14,12 @@ geox-url:
   mmdb: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb'
   asn: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb'
 
+proxy-providers:
+"INSERT_PROVIDERS"
+SUBS: &SUBS [
+"INSERT_USE"
+]
+
 dns:
   enable: true
   listen: 0.0.0.0:1053
@@ -81,11 +87,6 @@ FALLBACK_T: &FALLBACK_T {type: fallback, <<: *HEALTH_CHECK, use: *SUBS, exclude-
 LOADB_T: &LOADB_T {type: load-balance, <<: *HEALTH_CHECK, use: *SUBS, exclude-filter: *FILTER, hidden: true, strategy: round-robin}
 SELECT_T: &SELECT_T {type: select, <<: *HEALTH_CHECK, exclude-filter: *FILTER}
 
-proxy-providers:
-"INSERT_PROVIDERS"
-SUBS: &SUBS [
-"INSERT_USE"
-]
 proxy-groups:
   - {name: Final, type: select, proxies: [Final自动, Final回退, Final均衡, 香港节点, 台湾节点, 日本节点, 新加坡节点, 美国节点, 韩国节点, 英国节点, 法国节点, 德国节点, 荷兰节点, 其他节点], icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Final.png"}
 
