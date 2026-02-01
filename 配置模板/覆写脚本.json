@@ -106,7 +106,6 @@ const main = (config) => {
   const getP = (url, beh) => ({ ...ruleProviderCommon, behavior: beh, url, format: url.endsWith(".yaml") ? "yaml" : "mrs" });
   config["rule-providers"] = {
     "秋风去广告": getP("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs", "domain"),
-    "AdBlock": getP("https://testingcf.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Clash@main/adblock_reject.mrs", "domain"),
     "STUN": getP("https://testingcf.jsdelivr.net/gh/Kwisma/rules@main/rules/mihomo/STUN/STUN_Domain.mrs", "domain"),
     "Fakeip-Filter": getP("https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs", "domain"),
     "Direct": getP("https://git.imee.me/https://github.com/666OS/rules/raw/release/mihomo/domain/Direct.mrs", "domain"),
@@ -123,7 +122,6 @@ const main = (config) => {
 
   config["rules"] = [
     "RULE-SET,秋风去广告,REJECT",
-    "RULE-SET,AdBlock,REJECT",
     "RULE-SET,STUN,REJECT-DROP",
     "RULE-SET,Fakeip-Filter,DIRECT",
     "RULE-SET,Private,DIRECT",
