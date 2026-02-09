@@ -2,20 +2,22 @@
   "log": { "level": "info", "timestamp": true },
   "dns": {
     "servers": [
-      { "tag": "proxy_dns", "type": "https", "server": "8.8.8.8", "detour": "proxy" },
-      { "tag": "local_dns", "type": "https", "server": "223.5.5.5", "detour": "direct" },
-      { "tag": "block_dns", "type": "rcode", "code": "refused" },
-      { "tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18" }
+      { "tag": "dns_proxy", "type": "https", "server": "8.8.8.8", "detour": "proxy" },
+      { "tag": "dns_direct", "type": "https", "server": "223.5.5.5", "detour": "direct" },
+      { "tag": "dns_resolver", "type": "udp", "server": "119.29.29.29", "detour": "direct" },
+      { "tag": "dns_fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18" }
     ],
     "rules": [
-      { "clash_mode": "Direct", "action": "route", "server": "local_dns" },
-      { "clash_mode": "Global", "action": "route", "server": "fakeip" },
-      { "rule_set": "ads_domain", "action": "route", "server": "block_dns" },
-      { "rule_set": "cn_domain", "action": "route", "server": "local_dns" },
-      { "query_type": ["A", "AAAA"], "action": "route", "server": "fakeip", "rewrite_ttl": 1 }
+      { "outbound": "any", "server": "dns_resolver" },
+      { "clash_mode": "Direct", "action": "route", "server": "dns_direct" },
+      { "clash_mode": "Global", "action": "route", "server": "dns_fakeip" },
+      { "rule_set": "ads_domain", "action": "reject" },
+      { "rule_set": "cn_domain", "action": "route", "server": "dns_direct" },
+      { "query_type": ["A", "AAAA"], "action": "route", "server": "dns_fakeip", "rewrite_ttl": 1 }
     ],
-    "final": "local_dns",
-    "independent_cache": true
+    "final": "dns_direct",
+    "independent_cache": true,
+    "reverse_mapping": true 
   },
   "route": {
     "rules": [
@@ -41,23 +43,18 @@
     "final": "proxy"
   },
   "outbounds": [
-    { "tag": "openai", "type": "selector", "outbounds": ["proxy", "us", "us-auto", "sg", "sg-auto", "jp", "jp-auto", "eu", "eu-auto", "direct"] },
-    { "tag": "telegram", "type": "selector", "outbounds": ["proxy", "sg", "sg-auto", "jp", "jp-auto", "us", "us-auto", "eu", "eu-auto", "direct"] },
-    { "tag": "proxy", "type": "selector", "outbounds": ["all-auto", "sg", "jp", "us", "eu", "direct"] },
+    { "tag": "openai", "type": "selector", "outbounds": ["proxy", "us-auto", "sg-auto", "jp-auto", "eu-auto", "direct"] },
+    { "tag": "telegram", "type": "selector", "outbounds": ["proxy", "sg-auto", "jp-auto", "us-auto", "eu-auto", "direct"] },
+    { "tag": "proxy", "type": "selector", "outbounds": ["all-auto", "sg-auto", "jp-auto", "us-auto", "eu-auto", "direct"] },
     
-    { "tag": "sg", "type": "selector", "outbounds": [] },
-    { "tag": "jp", "type": "selector", "outbounds": [] },
-    { "tag": "us", "type": "selector", "outbounds": [] },
-    { "tag": "eu", "type": "selector", "outbounds": [] },
-    { "tag": "all", "type": "selector", "outbounds": [] },
+    // 模式参数：1m 频率 + 50ms 容差
+    { "tag": "sg-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50, "idle_timeout": "30m" },
+    { "tag": "jp-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50, "idle_timeout": "30m" },
+    { "tag": "us-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50, "idle_timeout": "30m" },
+    { "tag": "eu-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50, "idle_timeout": "30m" },
+    { "tag": "all-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50, "idle_timeout": "30m" },
 
-    { "tag": "sg-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "5m", "tolerance": 50 },
-    { "tag": "jp-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "5m", "tolerance": 50 },
-    { "tag": "us-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "5m", "tolerance": 50 },
-    { "tag": "eu-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "5m", "tolerance": 50 },
-    { "tag": "all-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "5m", "tolerance": 50 },
-
-    { "tag": "GLOBAL", "type": "selector", "outbounds": ["proxy", "sg", "jp", "us", "eu", "direct"] },
+    { "tag": "GLOBAL", "type": "selector", "outbounds": ["proxy", "all-auto", "direct"] },
     { "tag": "direct", "type": "direct" },
     { "tag": "block", "type": "block" },
     { "tag": "dns-out", "type": "dns" }
@@ -73,14 +70,7 @@
       "sniff_override_destination": true,
       "udp_timeout": 300
     },
-    {
-      "type": "mixed",
-      "tag": "mixed-in",
-      "listen": "::",
-      "listen_port": 7890,
-      "sniff": true,
-      "set_system_proxy": false
-    }
+    { "type": "mixed", "tag": "mixed-in", "listen": "::", "listen_port": 7890, "sniff": true }
   ],
   "experimental": {
     "clash_api": { "external_controller": "127.0.0.1:9090", "external_ui": "ui" },
