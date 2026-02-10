@@ -2,68 +2,68 @@
   "dns": {
     "servers": [
       {
-        "tag": "𝘊𝘭𝘰𝘶𝘥𝘧𝘭𝘢𝘳𝘦",
+        "tag": "Cloudflare",
         "address": "https://1.1.1.1/dns-query",
-        "address_resolver": "𝘓𝘰𝘤𝘢𝘭",
-        "detour": "𝘗𝘙𝘖𝘟𝘠"
+        "address_resolver": "Local",
+        "detour": "PROXY"
       },
       {
-        "tag": "𝘎𝘰𝘰𝘨𝘭𝘦",
+        "tag": "Google",
         "address": "https://8.8.8.8/dns-query",
-        "address_resolver": "𝘓𝘰𝘤𝘢𝘭",
-        "detour": "𝘗𝘙𝘖𝘟𝘠"
+        "address_resolver": "Local",
+        "detour": "PROXY"
       },
       {
-        "tag": "𝘈𝘭𝘪",
+        "tag": "Ali",
         "address": "https://223.5.5.5/dns-query",
-        "address_resolver": "𝘓𝘰𝘤𝘢𝘭",
-        "detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "address_resolver": "Local",
+        "detour": "Direct"
       },
       {
-        "tag": "𝘓𝘰𝘤𝘢𝘭",
+        "tag": "Local",
         "address": "223.5.5.5",
-        "detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "detour": "Direct"
       },
       {
-        "tag": "𝘍𝘢𝘬𝘦𝘐𝘗",
+        "tag": "FakeIP",
         "address": "fakeip",
         "strategy": "ipv4_only"
       },
       {
-        "tag": "𝘉𝘭𝘰𝘤𝘬",
+        "tag": "Block",
         "address": "rcode://success"
       }
     ],
     "rules": [
       {
         "outbound": "any",
-        "server": "𝘓𝘰𝘤𝘢𝘭"
+        "server": "Local"
       },
       {
         "clash_mode": "Direct",
-        "server": "𝘈𝘭𝘪"
+        "server": "Ali"
       },
       {
         "clash_mode": "Global",
-        "server": "𝘊𝘭𝘰𝘶𝘥𝘧𝘭𝘢𝘳𝘦"
+        "server": "Cloudflare"
       },
       {
         "rule_set": "AWAvenue-Ads-Rule",
-        "server": "𝘉𝘭𝘰𝘤𝘬"
+        "server": "Block"
       },
       {
         "rule_set": "cn_domain",
-        "server": "𝘈𝘭𝘪"
+        "server": "Ali"
       },
       {
         "query_type": [
           "A",
           "AAAA"
         ],
-        "server": "𝘍𝘢𝘬𝘦𝘐𝘗"
+        "server": "FakeIP"
       }
     ],
-    "final": "𝘊𝘭𝘰𝘶𝘥𝘧𝘭𝘢𝘳𝘦",
+    "final": "Cloudflare",
     "strategy": "prefer_ipv4",
     "disable_cache": false,
     "disable_expire": false,
@@ -83,31 +83,31 @@
       {
         "network": "udp",
         "port": 443,
-        "outbound": "𝘉𝘭𝘰𝘤𝘬"
+        "outbound": "Block"
       },
       {
         "clash_mode": "Direct",
-        "outbound": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "outbound": "Direct"
       },
       {
         "clash_mode": "Global",
-        "outbound": "𝘎𝘓𝘖𝘉𝘈𝘓"
+        "outbound": "GLOBAL"
       },
       {
         "rule_set": "AWAvenue-Ads-Rule",
-        "outbound": "𝘈𝘥𝘉𝘭𝘰𝘤𝘬"
+        "outbound": "AdBlock"
       },
       {
         "ip_is_private": true,
-        "outbound": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "outbound": "Direct"
       },
       {
         "rule_set": "youtube_domain",
-        "outbound": "𝘠𝘰𝘶𝘵𝘶𝘣𝘦"
+        "outbound": "Youtube"
       },
       {
         "rule_set": "openai_domain",
-        "outbound": "𝘖𝘯𝘭𝘺-𝘈𝘐"
+        "outbound": "Only-AI"
       },
       {
         "type": "logical",
@@ -125,28 +125,28 @@
             "invert": true
           }
         ],
-        "outbound": "𝘗𝘙𝘖𝘟𝘠"
+        "outbound": "PROXY"
       },
       {
         "rule_set": [
           "telegram_ip",
           "telegram_domain"
         ],
-        "outbound": "𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮"
+        "outbound": "Telegram"
       },
       {
         "rule_set": [
           "google_ip",
           "google_domain"
         ],
-        "outbound": "𝘎𝘰𝘰𝘨𝘭𝘦"
+        "outbound": "Google"
       },
       {
         "rule_set": [
           "cn_ip",
           "cn_domain"
         ],
-        "outbound": "𝘊𝘕"
+        "outbound": "CN"
       }
     ],
     "rule_set": [
@@ -155,252 +155,252 @@
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "cn_ip",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "cn_domain",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/cn.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "google_ip",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/google.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "google_domain",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/google.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "openai_domain",
         "type": "remote",
         "format": "source",
         "url": "https://raw.githubusercontent.com/mashanghai88/xiaohai/main/rules/singbox-ai.json",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "proxy_domain",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/geolocation-!cn.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "telegram_ip",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/telegram.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "telegram_domain",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/telegram.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       },
       {
         "tag": "youtube_domain",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/youtube.srs",
-        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "download_detour": "Direct"
       }
     ],
-    "final": "𝘍𝘪𝘯𝘢𝘭",
+    "final": "Final",
     "auto_detect_interface": true,
     "override_android_vpn": true
   },
   "outbounds": [
     {
-      "tag": "𝘗𝘙𝘖𝘟𝘠",
+      "tag": "PROXY",
       "type": "selector",
       "outbounds": [
-        "𝘏𝘒",
-        "𝘛𝘞",
-        "𝘑𝘗",
-        "𝘚𝘎",
-        "𝘜𝘚",
-        "𝘏𝘒-𝘈𝘶𝘵𝘰",
-        "𝘛𝘞-𝘈𝘶𝘵𝘰",
-        "𝘑𝘗-𝘈𝘶𝘵𝘰",
-        "𝘚𝘎-𝘈𝘶𝘵𝘰",
-        "𝘜𝘚-𝘈𝘶𝘵𝘰",
-        "𝘈𝘭𝘭",
-        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "HK",
+        "TW",
+        "JP",
+        "SG",
+        "US",
+        "HK-Auto",
+        "TW-Auto",
+        "JP-Auto",
+        "SG-Auto",
+        "US-Auto",
+        "All",
+        "All-Auto",
+        "Direct"
       ],
-      "default": "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰"
+      "default": "All-Auto"
     },
     {
-      "tag": "𝘎𝘰𝘰𝘨𝘭𝘦",
+      "tag": "Google",
       "type": "selector",
       "outbounds": [
-        "𝘗𝘙𝘖𝘟𝘠",
-        "𝘏𝘒",
-        "𝘛𝘞",
-        "𝘑𝘗",
-        "𝘚𝘎",
-        "𝘜𝘚",
-        "𝘏𝘒-𝘈𝘶𝘵𝘰",
-        "𝘛𝘞-𝘈𝘶𝘵𝘰",
-        "𝘑𝘗-𝘈𝘶𝘵𝘰",
-        "𝘚𝘎-𝘈𝘶𝘵𝘰",
-        "𝘜𝘚-𝘈𝘶𝘵𝘰",
-        "𝘈𝘭𝘭",
-        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "PROXY",
+        "HK",
+        "TW",
+        "JP",
+        "SG",
+        "US",
+        "HK-Auto",
+        "TW-Auto",
+        "JP-Auto",
+        "SG-Auto",
+        "US-Auto",
+        "All",
+        "All-Auto",
+        "Direct"
       ],
-      "default": "𝘗𝘙𝘖𝘟𝘠"
+      "default": "PROXY"
     },
     {
-      "tag": "𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮",
+      "tag": "Telegram",
       "type": "selector",
       "outbounds": [
-        "𝘗𝘙𝘖𝘟𝘠",
-        "𝘏𝘒",
-        "𝘛𝘞",
-        "𝘑𝘗",
-        "𝘚𝘎",
-        "𝘜𝘚",
-        "𝘏𝘒-𝘈𝘶𝘵𝘰",
-        "𝘛𝘞-𝘈𝘶𝘵𝘰",
-        "𝘑𝘗-𝘈𝘶𝘵𝘰",
-        "𝘚𝘎-𝘈𝘶𝘵𝘰",
-        "𝘜𝘚-𝘈𝘶𝘵𝘰",
-        "𝘈𝘭𝘭",
-        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "PROXY",
+        "HK",
+        "TW",
+        "JP",
+        "SG",
+        "US",
+        "HK-Auto",
+        "TW-Auto",
+        "JP-Auto",
+        "SG-Auto",
+        "US-Auto",
+        "All",
+        "All-Auto",
+        "Direct"
       ],
-      "default": "𝘗𝘙𝘖𝘟𝘠"
+      "default": "PROXY"
     },
     {
-      "tag": "𝘉𝘢𝘩𝘢𝘮𝘶𝘵",
+      "tag": "Bahamut",
       "type": "selector",
       "outbounds": [
-        "𝘗𝘙𝘖𝘟𝘠",
-        "𝘏𝘒",
-        "𝘛𝘞",
-        "𝘑𝘗",
-        "𝘚𝘎",
-        "𝘜𝘚",
-        "𝘏𝘒-𝘈𝘶𝘵𝘰",
-        "𝘛𝘞-𝘈𝘶𝘵𝘰",
-        "𝘑𝘗-𝘈𝘶𝘵𝘰",
-        "𝘚𝘎-𝘈𝘶𝘵𝘰",
-        "𝘜𝘚-𝘈𝘶𝘵𝘰",
-        "𝘈𝘭𝘭",
-        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "PROXY",
+        "HK",
+        "TW",
+        "JP",
+        "SG",
+        "US",
+        "HK-Auto",
+        "TW-Auto",
+        "JP-Auto",
+        "SG-Auto",
+        "US-Auto",
+        "All",
+        "All-Auto",
+        "Direct"
       ],
-      "default": "𝘗𝘙𝘖𝘟𝘠"
+      "default": "PROXY"
     },
     {
-      "tag": "𝘠𝘰𝘶𝘵𝘶𝘣𝘦",
+      "tag": "Youtube",
       "type": "selector",
       "outbounds": [
-        "𝘗𝘙𝘖𝘟𝘠",
-        "𝘏𝘒",
-        "𝘛𝘞",
-        "𝘑𝘗",
-        "𝘚𝘎",
-        "𝘜𝘚",
-        "𝘏𝘒-𝘈𝘶𝘵𝘰",
-        "𝘛𝘞-𝘈𝘶𝘵𝘰",
-        "𝘑𝘗-𝘈𝘶𝘵𝘰",
-        "𝘚𝘎-𝘈𝘶𝘵𝘰",
-        "𝘜𝘚-𝘈𝘶𝘵𝘰",
-        "𝘈𝘭𝘭",
-        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "PROXY",
+        "HK",
+        "TW",
+        "JP",
+        "SG",
+        "US",
+        "HK-Auto",
+        "TW-Auto",
+        "JP-Auto",
+        "SG-Auto",
+        "US-Auto",
+        "All",
+        "All-Auto",
+        "Direct"
       ],
-      "default": "𝘗𝘙𝘖𝘟𝘠"
+      "default": "PROXY"
     },
     {
-      "tag": "𝘖𝘯𝘭𝘺-𝘈𝘐",
+      "tag": "Only-AI",
       "type": "selector",
       "outbounds": [
-        "𝘗𝘙𝘖𝘟𝘠",
-        "𝘜𝘚",
-        "𝘛𝘞",
-        "𝘑𝘗",
-        "𝘚𝘎",
-        "𝘏𝘒",
-        "𝘜𝘚-𝘈𝘶𝘵𝘰",
-        "𝘛𝘞-𝘈𝘶𝘵𝘰",
-        "𝘑𝘗-𝘈𝘶𝘵𝘰",
-        "𝘚𝘎-𝘈𝘶𝘵𝘰",
-        "𝘏𝘒-𝘈𝘶𝘵𝘰",
-        "𝘈𝘭𝘭",
-        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "PROXY",
+        "US",
+        "TW",
+        "JP",
+        "SG",
+        "HK",
+        "US-Auto",
+        "TW-Auto",
+        "JP-Auto",
+        "SG-Auto",
+        "HK-Auto",
+        "All",
+        "All-Auto",
+        "Direct"
       ],
-      "default": "𝘗𝘙𝘖𝘟𝘠"
+      "default": "PROXY"
     },
     {
-      "tag": "𝘊𝘕",
+      "tag": "CN",
       "type": "selector",
       "outbounds": [
-        "𝘋𝘪𝘳𝘦𝘤𝘵",
-        "𝘗𝘙𝘖𝘟𝘠"
+        "Direct",
+        "PROXY"
       ],
-      "default": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      "default": "Direct"
     },
     {
-      "tag": "𝘍𝘪𝘯𝘢𝘭",
+      "tag": "Final",
       "type": "selector",
       "outbounds": [
-        "𝘗𝘙𝘖𝘟𝘠",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "PROXY",
+        "Direct"
       ],
-      "default": "𝘗𝘙𝘖𝘟𝘠"
+      "default": "PROXY"
     },
     {
-      "tag": "𝘏𝘒",
+      "tag": "HK",
       "type": "selector",
       "outbounds": []
     },
     {
-      "tag": "𝘛𝘞",
+      "tag": "TW",
       "type": "selector",
       "outbounds": []
     },
     {
-      "tag": "𝘑𝘗",
+      "tag": "JP",
       "type": "selector",
       "outbounds": []
     },
     {
-      "tag": "𝘚𝘎",
+      "tag": "SG",
       "type": "selector",
       "outbounds": []
     },
     {
-      "tag": "𝘜𝘚",
+      "tag": "US",
       "type": "selector",
       "outbounds": []
     },
     {
-      "tag": "𝘈𝘭𝘭",
+      "tag": "All",
       "type": "selector",
       "outbounds": []
     },
     {
-      "tag": "𝘏𝘒-𝘈𝘶𝘵𝘰",
+      "tag": "HK-Auto",
       "type": "urltest",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
@@ -409,7 +409,7 @@
       "interrupt_exist_connections": false
     },
     {
-      "tag": "𝘛𝘞-𝘈𝘶𝘵𝘰",
+      "tag": "TW-Auto",
       "type": "urltest",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
@@ -418,7 +418,7 @@
       "interrupt_exist_connections": false
     },
     {
-      "tag": "𝘑𝘗-𝘈𝘶𝘵𝘰",
+      "tag": "JP-Auto",
       "type": "urltest",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
@@ -427,7 +427,7 @@
       "interrupt_exist_connections": false
     },
     {
-      "tag": "𝘚𝘎-𝘈𝘶𝘵𝘰",
+      "tag": "SG-Auto",
       "type": "urltest",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
@@ -436,7 +436,7 @@
       "interrupt_exist_connections": false
     },
     {
-      "tag": "𝘜𝘚-𝘈𝘶𝘵𝘰",
+      "tag": "US-Auto",
       "type": "urltest",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
@@ -445,7 +445,7 @@
       "interrupt_exist_connections": false
     },
     {
-      "tag": "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+      "tag": "All-Auto",
       "type": "urltest",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
@@ -454,24 +454,24 @@
       "interrupt_exist_connections": false
     },
     {
-      "tag": "𝘎𝘓𝘖𝘉𝘈𝘓",
+      "tag": "GLOBAL",
       "type": "selector",
       "outbounds": [
-        "𝘗𝘙𝘖𝘟𝘠",
-        "𝘋𝘪𝘳𝘦𝘤𝘵"
+        "PROXY",
+        "Direct"
       ],
-      "default": "𝘗𝘙𝘖𝘟𝘠"
+      "default": "PROXY"
     },
     {
-      "tag": "𝘈𝘥𝘉𝘭𝘰𝘤𝘬",
+      "tag": "AdBlock",
       "type": "block"
     },
     {
-      "tag": "𝘉𝘭𝘰𝘤𝘬",
+      "tag": "Block",
       "type": "block"
     },
     {
-      "tag": "𝘋𝘪𝘳𝘦𝘤𝘵",
+      "tag": "Direct",
       "type": "direct"
     },
     {
@@ -507,7 +507,7 @@
       "external_controller": "127.0.0.1:9090",
       "external_ui": "ui",
       "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
-      "external_ui_download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵",
+      "external_ui_download_detour": "Direct",
       "secret": "",
       "default_mode": "rule"
     },
