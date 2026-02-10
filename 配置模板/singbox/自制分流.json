@@ -1,0 +1,528 @@
+{
+  "dns": {
+    "servers": [
+      {
+        "tag": "𝘊𝘭𝘰𝘶𝘥𝘧𝘭𝘢𝘳𝘦",
+        "address": "https://1.1.1.1/dns-query",
+        "address_resolver": "𝘓𝘰𝘤𝘢𝘭",
+        "detour": "𝘗𝘙𝘖𝘟𝘠"
+      },
+      {
+        "tag": "𝘎𝘰𝘰𝘨𝘭𝘦",
+        "address": "https://8.8.8.8/dns-query",
+        "address_resolver": "𝘓𝘰𝘤𝘢𝘭",
+        "detour": "𝘗𝘙𝘖𝘟𝘠"
+      },
+      {
+        "tag": "𝘈𝘭𝘪",
+        "address": "https://223.5.5.5/dns-query",
+        "address_resolver": "𝘓𝘰𝘤𝘢𝘭",
+        "detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "𝘓𝘰𝘤𝘢𝘭",
+        "address": "223.5.5.5",
+        "detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "𝘍𝘢𝘬𝘦𝘐𝘗",
+        "address": "fakeip",
+        "strategy": "ipv4_only"
+      },
+      {
+        "tag": "𝘉𝘭𝘰𝘤𝘬",
+        "address": "rcode://success"
+      }
+    ],
+    "rules": [
+      {
+        "outbound": "any",
+        "server": "𝘓𝘰𝘤𝘢𝘭"
+      },
+      {
+        "clash_mode": "Direct",
+        "server": "𝘈𝘭𝘪"
+      },
+      {
+        "clash_mode": "Global",
+        "server": "𝘊𝘭𝘰𝘶𝘥𝘧𝘭𝘢𝘳𝘦"
+      },
+      {
+        "rule_set": "AWAvenue-Ads-Rule",
+        "server": "𝘉𝘭𝘰𝘤𝘬"
+      },
+      {
+        "rule_set": "cn_domain",
+        "server": "𝘈𝘭𝘪"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "𝘍𝘢𝘬𝘦𝘐𝘗"
+      }
+    ],
+    "final": "𝘊𝘭𝘰𝘶𝘥𝘧𝘭𝘢𝘳𝘦",
+    "strategy": "prefer_ipv4",
+    "disable_cache": false,
+    "disable_expire": false,
+    "independent_cache": true,
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    }
+  },
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "outbound": "dns-out"
+      },
+      {
+        "network": "udp",
+        "port": 443,
+        "outbound": "𝘉𝘭𝘰𝘤𝘬"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "𝘎𝘓𝘖𝘉𝘈𝘓"
+      },
+      {
+        "rule_set": "AWAvenue-Ads-Rule",
+        "outbound": "𝘈𝘥𝘉𝘭𝘰𝘤𝘬"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "rule_set": "youtube_domain",
+        "outbound": "𝘠𝘰𝘶𝘵𝘶𝘣𝘦"
+      },
+      {
+        "rule_set": "openai_domain",
+        "outbound": "𝘖𝘯𝘭𝘺-𝘈𝘐"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "proxy_domain"
+          },
+          {
+            "rule_set": [
+              "cn_domain",
+              "google_domain",
+              "telegram_domain"
+            ],
+            "invert": true
+          }
+        ],
+        "outbound": "𝘗𝘙𝘖𝘟𝘠"
+      },
+      {
+        "rule_set": [
+          "telegram_ip",
+          "telegram_domain"
+        ],
+        "outbound": "𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮"
+      },
+      {
+        "rule_set": [
+          "google_ip",
+          "google_domain"
+        ],
+        "outbound": "𝘎𝘰𝘰𝘨𝘭𝘦"
+      },
+      {
+        "rule_set": [
+          "cn_ip",
+          "cn_domain"
+        ],
+        "outbound": "𝘊𝘕"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "AWAvenue-Ads-Rule",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "cn_ip",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "cn_domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/cn.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "google_ip",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/google.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "google_domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/google.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "openai_domain",
+        "type": "remote",
+        "format": "source",
+        "url": "https://raw.githubusercontent.com/mashanghai88/xiaohai/main/rules/singbox-ai.json",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "proxy_domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/geolocation-!cn.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "telegram_ip",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/telegram.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "telegram_domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/telegram.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      },
+      {
+        "tag": "youtube_domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/youtube.srs",
+        "download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵"
+      }
+    ],
+    "final": "𝘍𝘪𝘯𝘢𝘭",
+    "auto_detect_interface": true,
+    "override_android_vpn": true
+  },
+  "outbounds": [
+    {
+      "tag": "𝘗𝘙𝘖𝘟𝘠",
+      "type": "selector",
+      "outbounds": [
+        "𝘏𝘒",
+        "𝘛𝘞",
+        "𝘑𝘗",
+        "𝘚𝘎",
+        "𝘜𝘚",
+        "𝘏𝘒-𝘈𝘶𝘵𝘰",
+        "𝘛𝘞-𝘈𝘶𝘵𝘰",
+        "𝘑𝘗-𝘈𝘶𝘵𝘰",
+        "𝘚𝘎-𝘈𝘶𝘵𝘰",
+        "𝘜𝘚-𝘈𝘶𝘵𝘰",
+        "𝘈𝘭𝘭",
+        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰"
+    },
+    {
+      "tag": "𝘎𝘰𝘰𝘨𝘭𝘦",
+      "type": "selector",
+      "outbounds": [
+        "𝘗𝘙𝘖𝘟𝘠",
+        "𝘏𝘒",
+        "𝘛𝘞",
+        "𝘑𝘗",
+        "𝘚𝘎",
+        "𝘜𝘚",
+        "𝘏𝘒-𝘈𝘶𝘵𝘰",
+        "𝘛𝘞-𝘈𝘶𝘵𝘰",
+        "𝘑𝘗-𝘈𝘶𝘵𝘰",
+        "𝘚𝘎-𝘈𝘶𝘵𝘰",
+        "𝘜𝘚-𝘈𝘶𝘵𝘰",
+        "𝘈𝘭𝘭",
+        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘗𝘙𝘖𝘟𝘠"
+    },
+    {
+      "tag": "𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮",
+      "type": "selector",
+      "outbounds": [
+        "𝘗𝘙𝘖𝘟𝘠",
+        "𝘏𝘒",
+        "𝘛𝘞",
+        "𝘑𝘗",
+        "𝘚𝘎",
+        "𝘜𝘚",
+        "𝘏𝘒-𝘈𝘶𝘵𝘰",
+        "𝘛𝘞-𝘈𝘶𝘵𝘰",
+        "𝘑𝘗-𝘈𝘶𝘵𝘰",
+        "𝘚𝘎-𝘈𝘶𝘵𝘰",
+        "𝘜𝘚-𝘈𝘶𝘵𝘰",
+        "𝘈𝘭𝘭",
+        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘗𝘙𝘖𝘟𝘠"
+    },
+    {
+      "tag": "𝘉𝘢𝘩𝘢𝘮𝘶𝘵",
+      "type": "selector",
+      "outbounds": [
+        "𝘗𝘙𝘖𝘟𝘠",
+        "𝘏𝘒",
+        "𝘛𝘞",
+        "𝘑𝘗",
+        "𝘚𝘎",
+        "𝘜𝘚",
+        "𝘏𝘒-𝘈𝘶𝘵𝘰",
+        "𝘛𝘞-𝘈𝘶𝘵𝘰",
+        "𝘑𝘗-𝘈𝘶𝘵𝘰",
+        "𝘚𝘎-𝘈𝘶𝘵𝘰",
+        "𝘜𝘚-𝘈𝘶𝘵𝘰",
+        "𝘈𝘭𝘭",
+        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘗𝘙𝘖𝘟𝘠"
+    },
+    {
+      "tag": "𝘠𝘰𝘶𝘵𝘶𝘣𝘦",
+      "type": "selector",
+      "outbounds": [
+        "𝘗𝘙𝘖𝘟𝘠",
+        "𝘏𝘒",
+        "𝘛𝘞",
+        "𝘑𝘗",
+        "𝘚𝘎",
+        "𝘜𝘚",
+        "𝘏𝘒-𝘈𝘶𝘵𝘰",
+        "𝘛𝘞-𝘈𝘶𝘵𝘰",
+        "𝘑𝘗-𝘈𝘶𝘵𝘰",
+        "𝘚𝘎-𝘈𝘶𝘵𝘰",
+        "𝘜𝘚-𝘈𝘶𝘵𝘰",
+        "𝘈𝘭𝘭",
+        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘗𝘙𝘖𝘟𝘠"
+    },
+    {
+      "tag": "𝘖𝘯𝘭𝘺-𝘈𝘐",
+      "type": "selector",
+      "outbounds": [
+        "𝘗𝘙𝘖𝘟𝘠",
+        "𝘜𝘚",
+        "𝘛𝘞",
+        "𝘑𝘗",
+        "𝘚𝘎",
+        "𝘏𝘒",
+        "𝘜𝘚-𝘈𝘶𝘵𝘰",
+        "𝘛𝘞-𝘈𝘶𝘵𝘰",
+        "𝘑𝘗-𝘈𝘶𝘵𝘰",
+        "𝘚𝘎-𝘈𝘶𝘵𝘰",
+        "𝘏𝘒-𝘈𝘶𝘵𝘰",
+        "𝘈𝘭𝘭",
+        "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘗𝘙𝘖𝘟𝘠"
+    },
+    {
+      "tag": "𝘊𝘕",
+      "type": "selector",
+      "outbounds": [
+        "𝘋𝘪𝘳𝘦𝘤𝘵",
+        "𝘗𝘙𝘖𝘟𝘠"
+      ],
+      "default": "𝘋𝘪𝘳𝘦𝘤𝘵"
+    },
+    {
+      "tag": "𝘍𝘪𝘯𝘢𝘭",
+      "type": "selector",
+      "outbounds": [
+        "𝘗𝘙𝘖𝘟𝘠",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘗𝘙𝘖𝘟𝘠"
+    },
+    {
+      "tag": "𝘏𝘒",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "𝘛𝘞",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "𝘑𝘗",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "𝘚𝘎",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "𝘜𝘚",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "𝘈𝘭𝘭",
+      "type": "selector",
+      "outbounds": []
+    },
+    {
+      "tag": "𝘏𝘒-𝘈𝘶𝘵𝘰",
+      "type": "urltest",
+      "outbounds": [],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50,
+      "interrupt_exist_connections": false
+    },
+    {
+      "tag": "𝘛𝘞-𝘈𝘶𝘵𝘰",
+      "type": "urltest",
+      "outbounds": [],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50,
+      "interrupt_exist_connections": false
+    },
+    {
+      "tag": "𝘑𝘗-𝘈𝘶𝘵𝘰",
+      "type": "urltest",
+      "outbounds": [],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50,
+      "interrupt_exist_connections": false
+    },
+    {
+      "tag": "𝘚𝘎-𝘈𝘶𝘵𝘰",
+      "type": "urltest",
+      "outbounds": [],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50,
+      "interrupt_exist_connections": false
+    },
+    {
+      "tag": "𝘜𝘚-𝘈𝘶𝘵𝘰",
+      "type": "urltest",
+      "outbounds": [],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50,
+      "interrupt_exist_connections": false
+    },
+    {
+      "tag": "𝘈𝘭𝘭-𝘈𝘶𝘵𝘰",
+      "type": "urltest",
+      "outbounds": [],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m",
+      "tolerance": 50,
+      "interrupt_exist_connections": false
+    },
+    {
+      "tag": "𝘎𝘓𝘖𝘉𝘈𝘓",
+      "type": "selector",
+      "outbounds": [
+        "𝘗𝘙𝘖𝘟𝘠",
+        "𝘋𝘪𝘳𝘦𝘤𝘵"
+      ],
+      "default": "𝘗𝘙𝘖𝘟𝘠"
+    },
+    {
+      "tag": "𝘈𝘥𝘉𝘭𝘰𝘤𝘬",
+      "type": "block"
+    },
+    {
+      "tag": "𝘉𝘭𝘰𝘤𝘬",
+      "type": "block"
+    },
+    {
+      "tag": "𝘋𝘪𝘳𝘦𝘤𝘵",
+      "type": "direct"
+    },
+    {
+      "tag": "dns-out",
+      "type": "dns"
+    }
+  ],
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "sing-box",
+      "inet4_address": "172.19.0.1/30",
+      "inet6_address": "fdfe:dcba:9876::1/126",
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "mixed",
+      "sniff": true,
+      "sniff_override_destination": true
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7890,
+      "sniff": true,
+      "sniff_override_destination": true
+    }
+  ],
+  "experimental": {
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui",
+      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
+      "external_ui_download_detour": "𝘋𝘪𝘳𝘦𝘤𝘵",
+      "secret": "",
+      "default_mode": "rule"
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "cache_id": "sing-box",
+      "store_fakeip": true,
+      "store_rdrc": true,
+      "rdrc_timeout": "168h"
+    }
+  },
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  }
+}
