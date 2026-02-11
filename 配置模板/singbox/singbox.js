@@ -5,7 +5,7 @@
         "tag": "google",
         "type": "https",
         "server": "8.8.8.8",
-        "detour": "proxy"
+        "detour": "PROXY"
       },
       {
         "tag": "ali",
