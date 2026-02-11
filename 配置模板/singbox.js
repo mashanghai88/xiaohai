@@ -40,10 +40,6 @@
         "action": "reject"
       },
       {
-        "query_type": "HTTPS",
-        "action": "reject"
-      },
-      {
         "query_type": [
           "A",
           "AAAA"
@@ -51,6 +47,11 @@
         "action": "route",
         "server": "fakeip",
         "rewrite_ttl": 1
+      },
+      {
+        "rule_set": "proxy_domain",
+        "action": "route",
+        "server": "cloudflare"
       },
       {
         "rule_set": "cn_domain",
@@ -175,7 +176,7 @@
       {
         "tag": "ads_domain",
         "type": "remote",
-        "format": "source",
+        "format": "binary",
         "url": "https://github.boki.moe/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json",
         "download_detour": "Direct"
       },
@@ -379,32 +380,32 @@
     {
       "tag": "HK-Link",
       "type": "selector",
-      "outbounds": ["HK-Auto"]
+      "outbounds": []
     },
     {
       "tag": "TW-Link",
       "type": "selector",
-      "outbounds": ["TW-Auto"]
+      "outbounds": []
     },
     {
       "tag": "JP-Link",
       "type": "selector",
-      "outbounds": ["JP-Auto"]
+      "outbounds": []
     },
     {
       "tag": "SG-Link",
       "type": "selector",
-      "outbounds": ["SG-Auto"]
+      "outbounds": []
     },
     {
       "tag": "US-Link",
       "type": "selector",
-      "outbounds": ["US-Auto"]
+      "outbounds": []
     },
     {
       "tag": "All-Link",
       "type": "selector",
-      "outbounds": ["All-Auto"]
+      "outbounds": []
     },
     {
       "tag": "HK-Auto",
