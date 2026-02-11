@@ -341,7 +341,7 @@
         "SG-Link",
         "All-Link"
       ],
-      "default": "US-Auto"
+      "default": "US-Link"
     },
     {
       "tag": "CN",
