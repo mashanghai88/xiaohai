@@ -7,9 +7,9 @@
   "dns": {
     "servers": [
       {
-        "tag": "google",
+        "tag": "cloudflare",
         "type": "https",
-        "server": "8.8.8.8",
+        "server": "1.1.1.1",
         "detour": "PROXY"
       },
       {
@@ -22,15 +22,6 @@
         "type": "fakeip",
         "inet4_range": "198.18.0.0/15",
         "inet6_range": "fc00::/18"
-      },
-      {
-        "tag": "block",
-        "type": "static",
-        "responses": [
-          {
-            "rcode": "refused"
-          }
-        ]
       }
     ],
     "rules": [
@@ -46,8 +37,7 @@
       },
       {
         "rule_set": "ads_domain",
-        "action": "route",
-        "server": "block"
+        "action": "reject"
       },
       {
         "query_type": "HTTPS",
@@ -68,7 +58,7 @@
         "server": "ali"
       }
     ],
-    "final": "google",
+    "final": "cloudflare",
     "independent_cache": true
   },
   "route": {
@@ -228,7 +218,7 @@
         "tag": "openai_domain",
         "type": "remote",
         "format": "source",
-        "url": "https://raw.githubusercontent.com/mashanghai88/xiaohai/main/rules/singbox-ai.json",
+        "url": "https://ghfast.top/https://raw.githubusercontent.com/mashanghai88/xiaohai/main/rules/singbox-ai.json",
         "download_detour": "Direct"
       },
       {
@@ -491,7 +481,7 @@
         "172.19.0.0/30",
         "fdfe:dcba:9876::0/126"
       ],
-      "stack": "mixed",
+      "stack": "gvisor",
       "auto_route": true,
       "platform": {
         "http_proxy": {
