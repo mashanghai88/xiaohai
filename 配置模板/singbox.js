@@ -176,7 +176,7 @@
       {
         "tag": "ads_domain",
         "type": "remote",
-        "format": "binary",
+        "format": "source",
         "url": "https://github.boki.moe/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json",
         "download_detour": "Direct"
       },
