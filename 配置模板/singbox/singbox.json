@@ -374,7 +374,7 @@
       "tag": "BiliBili",
       "type": "selector",
       "outbounds": [
-        "Direct"
+        "Direct",
         "HK-Auto",
         "HK-Link",
         "TW-Auto",
@@ -397,7 +397,7 @@
       "tag": "CN",
       "type": "selector",
       "outbounds": [
-        "Direct"
+        "Direct",
         "HK-Auto",
         "HK-Link",
         "TW-Auto",
