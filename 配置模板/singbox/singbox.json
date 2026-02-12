@@ -15,7 +15,7 @@
       {
         "tag": "ali",
         "type": "https",
-        "server": "223.5.5.5"
+        "server": "https://dns.alidns.com/dns-query"
       },
       {
         "tag": "fakeip",
