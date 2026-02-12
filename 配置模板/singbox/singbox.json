@@ -9,7 +9,7 @@
       {
         "tag": "google",
         "type": "https",
-        "server": "8.8.4.4",
+        "server": "8.8.8.8",
         "detour": "PROXY"
       },
       {
