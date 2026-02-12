@@ -9,13 +9,13 @@
       {
         "tag": "google",
         "type": "https",
-        "server": "https://dns.google/dns-query",
+        "server": "8.8.4.4",
         "detour": "PROXY"
       },
       {
-        "tag": "ali",
+        "tag": "tencent",
         "type": "https",
-        "server": "https://dns.alidns.com/dns-query"
+        "server": "119.29.29.29"
       },
       {
         "tag": "fakeip",
@@ -28,7 +28,7 @@
       {
         "clash_mode": "Direct",
         "action": "route",
-        "server": "ali"
+        "server": "tencent"
       },
       {
         "clash_mode": "Global",
@@ -56,7 +56,7 @@
       {
         "rule_set": "cn_domain",
         "action": "route",
-        "server": "ali"
+        "server": "tencent"
       }
     ],
     "final": "google",
@@ -64,7 +64,7 @@
   },
   "route": {
     "default_domain_resolver": {
-      "server": "ali"
+      "server": "tencent"
     },
     "rules": [
       {
