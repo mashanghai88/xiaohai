@@ -13,9 +13,9 @@
         "detour": "PROXY"
       },
       {
-        "tag": "tencent",
+        "tag": "ali",
         "type": "https",
-        "server": "119.29.29.29"
+        "server": "223.5.5.5"
       },
       {
         "tag": "fakeip",
@@ -28,7 +28,7 @@
       {
         "clash_mode": "Direct",
         "action": "route",
-        "server": "tencent"
+        "server": "ali"
       },
       {
         "clash_mode": "Global",
@@ -56,7 +56,7 @@
       {
         "rule_set": "cn_domain",
         "action": "route",
-        "server": "tencent"
+        "server": "ali"
       }
     ],
     "final": "google",
@@ -64,7 +64,7 @@
   },
   "route": {
     "default_domain_resolver": {
-      "server": "tencent"
+      "server": "ali"
     },
     "rules": [
       {
