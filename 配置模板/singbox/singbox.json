@@ -7,9 +7,9 @@
   "dns": {
     "servers": [
       {
-        "tag": "cloudflare",
+        "tag": "google",
         "type": "https",
-        "server": "1.1.1.1",
+        "server": "https://dns.google/dns-query",
         "detour": "PROXY"
       },
       {
@@ -51,7 +51,7 @@
       {
         "rule_set": "proxy_domain",
         "action": "route",
-        "server": "cloudflare"
+        "server": "google"
       },
       {
         "rule_set": "cn_domain",
@@ -59,7 +59,7 @@
         "server": "ali"
       }
     ],
-    "final": "cloudflare",
+    "final": "google",
     "independent_cache": true
   },
   "route": {
