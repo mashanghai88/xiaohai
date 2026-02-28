@@ -20,9 +20,40 @@ SUBS: &SUBS [
 "INSERT_USE"
 ]
 
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  skip-domain:
+    - Mijia Cloud
+    - +.push.apple.com
+  sniff:
+    TLS:
+      ports:
+        - 443
+        - 8443
+    HTTP:
+      ports:
+        - 80
+        - 8080-8880
+      override-destination: true
+    QUIC:
+      ports:
+        - 443
+        - 8443
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - udp://any:53
+    - tcp://any:53
 dns:
   enable: true
   listen: 0.0.0.0:1053
+  use-hosts: true
   respect-rules: true
   prefer-h3: false
   ipv6: false
@@ -31,51 +62,26 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-range6: fdfe:dcba:9876::/64
   fake-ip-filter:
-    - 'RULE-SET:Fakeip_Filter'
-    - 'RULE-SET:ChinaMax'
-    - 'RULE-SET:Private'
-  default-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
-  direct-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29    
-  nameserver:
-    - 223.5.5.5
-    - 119.29.29.29    
-  proxy-server-nameserver:
-    - https://dns.alidns.com/dns-query
-    - https://doh.pub/dns-query
+    - 'RULE-SET:private'
+    - '+.pool.ntp.org'
+    - 'time.*.com'
+    - 'stun.*.*'
+    - '+.stun.*.*'
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+  default-nameserver: [223.5.5.5, 119.29.29.29]
+  direct-nameserver: ['https://doh.pub/dns-query']
+  nameserver: ['https://cloudflare-dns.com/dns-query', 'https://dns.google/dns-query']
+  proxy-server-nameserver: ['https://doh.pub/dns-query']
   nameserver-policy:
-    'geosite:cn,private':
-      - https://dns.alidns.com/dns-query
-      - https://doh.pub/dns-query
-    'geosite:geolocation-!cn':
-      - https://cloudflare-dns.com/dns-query
-      - https://dns.google/dns-query
+    'geosite:cn,private': ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']
+    'geosite:geolocation-!cn': ['https://cloudflare-dns.com/dns-query', 'https://dns.google/dns-query']
   direct-nameserver-follow-policy: false
-
-sniffer:
-  enable: true
-  parse-pure-ip: true
-  sniff:
-    TLS: {ports: [443, 8443]}
-    HTTP: {ports: [80, 8080-8880], override-destination: true}
-    QUIC: {ports: [443, 8443]}
-  force-domain: [+.v2ex.com]
-  skip-domain: [Mijia.Cloud.com]
-
-tun:
-  enable: true
-  stack: system
-  auto-route: true
-  auto-detect-interface: true
-  dns-hijack: ['any:53', 'tcp://any:53']
-  device: mihomo
-  mtu: 9000
-  strict-route: false
-  udp-timeout: 300
-  endpoint-independent-nat: false
+  hosts:
+    'dns.alidns.com': [223.5.5.5, 223.6.6.6]
+    'doh.pub': [1.12.12.12, 120.53.53.53]
+    'cloudflare-dns.com': [1.1.1.1, 1.0.0.1]
+    'dns.google': [8.8.8.8, 8.8.4.4]
 
 HEALTH_CHECK: &HEALTH_CHECK {interval: 300, url: https://www.gstatic.com/generate_204, lazy: false, tolerance: 50, timeout: 5000}
 FILTER: &FILTER '(?i)重置|到期|套餐|剩余|有效'
