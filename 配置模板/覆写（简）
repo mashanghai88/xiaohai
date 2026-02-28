@@ -1,0 +1,167 @@
+const N_MANUAL = "𝑃𝑟𝑜𝑥𝑦𝑀𝑜𝑑𝑒";
+const N_MIX_AUTO = "𝐴𝑢𝑡𝑜𝑅𝑒𝑐𝑜𝑣𝑒𝑟𝑦"; 
+const N_AUTO = "𝐴𝑢𝑡𝑜𝑆𝑝𝑒𝑒𝑑";      
+const N_FALLBACK = "𝐹𝑎𝑖𝑙𝑜𝑣𝑒𝑟";  
+const N_CN = "𝐷𝑖𝑟𝑒𝑐𝑡𝐿𝑖𝑛𝑘";
+const N_ADS = "𝐴𝑑𝐵𝑙𝑜𝑐𝑘𝑒𝑟";
+
+const EX_INFO = "(?i)重置|到期|频道|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网";
+
+const ruleProviderCommon = { "interval": 86400, "proxy": N_MANUAL, "type": "http", "format": "mrs", "behavior": "classical" };
+const groupBaseOption = { "interval": 300, "url": "https://www.gstatic.com/generate_204", "lazy": true, "tolerance": 50, "timeout": 5000, "max-failed-times": 3 };
+
+const main = (config) => {
+  const allProxies = config.proxies ? config.proxies.map(p => p.name) : [];
+  if (allProxies.length === 0 && !config["proxy-providers"]) throw new Error("No Proxies Found");
+
+  Object.assign(config, {
+    "mixed-port": 7890,
+    "allow-lan": true,
+    "mode": "rule",
+    "log-level": "error",
+    "ipv6": true, 
+    "unified-delay": true,
+    "tcp-concurrent": true,
+    "find-process-mode": "off",
+    "global-client-fingerprint": "chrome",
+    "external-controller": '[::]:9090',
+    "external-ui": 'ui',
+    "external-ui-url": 'https://github.com/Zephyruso/zashboard/releases/latest/download/dist-cdn-fonts.zip',
+    "profile": { "store-selected": true, "store-fake-ip": true }
+  });
+
+  if (!config["proxies"]) config["proxies"] = [];
+  config["proxies"].push(
+    { name: "v4优先", type: "direct", "ip-version": "ipv4-prefer" },
+    { name: "v6优先", type: "direct", "ip-version": "ipv6-prefer" }
+  );
+
+  config["sniffer"] = {
+    "enable": true,
+    "force-dns-mapping": true,
+    "parse-pure-ip": true,
+    "override-destination": true,
+    "skip-domain": ["Mijia Cloud", "+.push.apple.com"],
+    "sniff": { 
+        "TLS": { "ports": [443, 8443] }, 
+        "HTTP": { "ports": [80, "8080-8880"], "override-destination": true },
+        "QUIC": { "ports": [443, 8443] }
+    }
+  };
+
+  config["tun"] = { "enable": true, "stack": "system", "auto-route": true, "auto-detect-interface": true, "dns-hijack": ["udp://any:53", "tcp://any:53"] };
+
+  config["dns"] = {
+    "enable": true, 
+    "listen": "[::]:1053", 
+    "use-hosts": true, 
+    "respect-rules": true, 
+    "ipv6": true, 
+    "enhanced-mode": "fake-ip", 
+    "fake-ip-range": "198.18.0.1/16",
+    "fake-ip-range6": "fdfe:dcba:9876::/64",
+    "cache-algorithm": "arc",
+    "fake-ip-filter": [
+        "+.market.xiaomi.com", 
+        "lancache.steamcontent.com", 
+        "geosite:private",
+        "+.pool.ntp.org",
+        "time.*.com",
+        "stun.*.*",
+        "+.stun.*.*",
+        "+.msftconnecttest.com",
+        "+.msftncsi.com"
+    ],
+    "default-nameserver": ["223.5.5.5", "119.29.29.29"],
+    "direct-nameserver": ["https://doh.pub/dns-query"],
+    "nameserver": ["https://cloudflare-dns.com/dns-query", "https://dns.google/dns-query"],
+    "proxy-server-nameserver": ["https://doh.pub/dns-query"],
+    "nameserver-policy": { 
+        "geosite:cn,private": ["https://dns.alidns.com/dns-query", "https://doh.pub/dns-query"], 
+        "rule-set:gfw": ["https://dns.google/dns-query", "https://cloudflare-dns.com/dns-query"],
+        "*.arpa": "system"
+    },
+    "hosts": { 
+        "dns.alidns.com": ["223.5.5.5", "223.6.6.6"], 
+        "doh.pub": ["1.12.12.12", "120.53.53.53"], 
+        "cloudflare-dns.com": ["1.1.1.1", "1.0.0.1"],
+        "dns.google": ["8.8.8.8", "8.8.4.4"] 
+    }
+  };
+
+  config["proxy-groups"] = [
+    { 
+      ...groupBaseOption, 
+      name: N_MANUAL, 
+      type: "select", 
+      proxies: [N_MIX_AUTO, ...allProxies], 
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png", 
+      "exclude-filter": EX_INFO 
+    },
+    {
+      name: N_MIX_AUTO,
+      type: "select",
+      proxies: [N_AUTO, N_FALLBACK],
+      icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Server.png"
+    },
+    { 
+      ...groupBaseOption, 
+      name: N_AUTO, 
+      type: "url-test", 
+      hidden: true, 
+      proxies: allProxies.length > 0 ? allProxies : ["DIRECT"],
+      "exclude-filter": EX_INFO 
+    },
+    { 
+      ...groupBaseOption, 
+      name: N_FALLBACK, 
+      type: "fallback", 
+      hidden: true, 
+      proxies: allProxies.length > 0 ? allProxies : ["DIRECT"],
+      "exclude-filter": EX_INFO 
+    },
+    { 
+      name: N_CN, 
+      type: "select", 
+      proxies: ["v4优先", "v6优先"], 
+      icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/china.png" 
+    },
+    { 
+      name: N_ADS, 
+      type: "select", 
+      proxies: ["REJECT", "DIRECT"], 
+      icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/AdBlack.png" 
+    }
+  ];
+
+  const getP = (url, beh, fmt = "mrs") => ({ ...ruleProviderCommon, behavior: beh, url, format: fmt });
+  config["rule-providers"] = {
+    "ads": getP("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs", "domain"),
+    "STUN": getP("https://testingcf.jsdelivr.net/gh/Kwisma/rules@main/rules/mihomo/STUN/STUN_Domain.mrs", "domain"),
+    "private": getP("https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs", "domain"),
+    "private_ip": getP("https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs", "ipcidr"),
+    "gfw": getP("https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/gfw.mrs", "domain"),
+    "gfwip": getP("https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_IP.mrs", "ipcidr"),
+    "cn": getP("https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Domain.yaml", "domain", "yaml"),
+    "cn_ip": getP("https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.yaml", "ipcidr", "yaml")
+  };
+
+  config["rules"] = [
+    "RULE-SET,ads," + N_ADS,
+    "DOMAIN,abyss.cyapi.cn," + N_ADS,
+    "DOMAIN,ad.cyapi.cn," + N_ADS,
+    "DOMAIN,gather.colorfulclouds.net," + N_ADS,
+    "RULE-SET,STUN,REJECT-DROP",
+    "DOMAIN-SUFFIX,steamserver.net," + N_CN,
+    "AND,((NETWORK,UDP),(DST-PORT,443),(DOMAIN-KEYWORD,youtube)),REJECT",
+    "RULE-SET,private," + N_CN,
+    "RULE-SET,private_ip," + N_CN + ",no-resolve",
+    "RULE-SET,gfw," + N_MANUAL,
+    "RULE-SET,gfwip," + N_MANUAL,
+    "RULE-SET,cn," + N_CN,
+    "RULE-SET,cn_ip," + N_CN + ",no-resolve",
+    "MATCH," + N_MANUAL
+  ];
+
+  return config;
+};
