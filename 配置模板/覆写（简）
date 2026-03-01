@@ -43,51 +43,52 @@ const main = (config) => {
     "override-destination": true,
     "skip-domain": ["Mijia Cloud", "+.push.apple.com"],
     "sniff": { 
-        "TLS": { "ports": [443, 8443] }, 
-        "HTTP": { "ports": [80, "8080-8880"], "override-destination": true },
-        "QUIC": { "ports": [443, 8443] }
+      "TLS": { "ports": [443, 8443] }, 
+      "HTTP": { "ports": [80, "8080-8880"], "override-destination": true },
+      "QUIC": { "ports": [443, 8443] }
     }
   };
 
   config["tun"] = { "enable": true, "stack": "system", "auto-route": true, "auto-detect-interface": true, "dns-hijack": ["udp://any:53", "tcp://any:53"] };
 
-  config["dns"] = {
-    "enable": true, 
-    "listen": "[::]:1053", 
-    "use-hosts": true, 
-    "respect-rules": true, 
-    "ipv6": true, 
-    "enhanced-mode": "fake-ip", 
-    "fake-ip-range": "198.18.0.1/16",
-    "fake-ip-range6": "fdfe:dcba:9876::/64",
-    "cache-algorithm": "arc",
-    "fake-ip-filter": [
-        "+.market.xiaomi.com", 
-        "lancache.steamcontent.com", 
-        "geosite:private",
-        "+.pool.ntp.org",
-        "time.*.com",
-        "stun.*.*",
-        "+.stun.*.*",
-        "+.msftconnecttest.com",
-        "+.msftncsi.com"
-    ],
-    "default-nameserver": ["223.5.5.5", "119.29.29.29"],
-    "direct-nameserver": ["https://doh.pub/dns-query"],
-    "nameserver": ["https://cloudflare-dns.com/dns-query", "https://dns.google/dns-query"],
-    "proxy-server-nameserver": ["https://doh.pub/dns-query"],
-    "nameserver-policy": { 
-        "geosite:cn,private": ["https://dns.alidns.com/dns-query", "https://doh.pub/dns-query"], 
-        "rule-set:gfw": ["https://dns.google/dns-query", "https://cloudflare-dns.com/dns-query"],
-        "*.arpa": "system"
-    },
-    "hosts": { 
-        "dns.alidns.com": ["223.5.5.5", "223.6.6.6"], 
-        "doh.pub": ["1.12.12.12", "120.53.53.53"], 
-        "cloudflare-dns.com": ["1.1.1.1", "1.0.0.1"],
-        "dns.google": ["8.8.8.8", "8.8.4.4"] 
-    }
-  };
+config["dns"] = {
+"enable": true, 
+"listen": "[::]:1053", 
+"use-hosts": true, 
+"respect-rules": true, 
+"ipv6": true, 
+"enhanced-mode": "fake-ip", 
+"fake-ip-range": "198.18.0.1/16",
+"fake-ip-range6": "fdfe:dcba:9876::/64",
+"cache-algorithm": "arc",
+"fake-ip-filter": [
+"+.market.xiaomi.com", 
+"lancache.steamcontent.com", 
+"geosite:private",
+"+.pool.ntp.org",
+"time.*.com",
+"stun.*.*",
+"+.stun.*.*",
+"+.msftconnecttest.com",
+"+.msftncsi.com"
+],
+"default-nameserver": ["223.5.5.5", "119.29.29.29"],
+"direct-nameserver": ["https://doh.pub/dns-query"],
+"nameserver": ["https://cloudflare-dns.com/dns-query", "https://dns.google/dns-query"],
+"proxy-server-nameserver": ["https://doh.pub/dns-query"],
+"nameserver-policy": { 
+"geosite:cn,private": ["https://dns.alidns.com/dns-query", "https://doh.pub/dns-query"], 
+"rule-set:gfw": ["https://dns.google/dns-query", "https://cloudflare-dns.com/dns-query"],
+"*.arpa": "system"
+},
+};
+
+config["hosts"] = { 
+"dns.alidns.com": ["223.5.5.5", "223.6.6.6"], 
+"doh.pub": ["1.12.12.12", "120.53.53.53"], 
+"cloudflare-dns.com": ["1.1.1.1", "1.0.0.1"],
+"dns.google": ["8.8.8.8", "8.8.4.4"] 
+};
 
   config["proxy-groups"] = [
     { 
