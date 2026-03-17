@@ -1,0 +1,118 @@
+function main(config) {
+  config = config || {};
+
+  Object.assign(config, {
+    "mixed-port": 7890,
+    "allow-lan": true,
+    "mode": "rule",
+    "log-level": "info",
+    "ipv6": true,
+    "unified-delay": true,
+    "tcp-concurrent": true,
+    "find-process-mode": "strict",
+    "global-client-fingerprint": "chrome",
+    "geodata-mode": true
+  });
+
+  config["geox-url"] = {
+    "geoip": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb",
+    "geosite": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat",
+    "mmdb": "https://mirror.ghproxy.com/https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb",
+    "asn": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  };
+
+  config["dns"] = {
+    "enable": true,
+    "ipv6": true,
+    "listen": "[::]:1053",
+    "enhanced-mode": "fake-ip",
+    "fake-ip-range": "198.18.0.1/16",
+    "fake-ip-filter": ["RULE-SET:Fakeip-Filter", "+.market.xiaomi.com", "lancache.steamcontent.com"],
+    "proxy-server-nameserver": ["https://doh.pub/dns-query"],
+    "nameserver": ["https://dns.alidns.com/dns-query"],
+    "nameserver-policy": { "rule-set:Global": ["https://cloudflare-dns.com/dns-query#𝑮𝒂𝒕𝒆𝒘𝒂𝒚"] },
+    "direct-nameserver": ["system"]
+  };
+
+  const FILTER = "(?i)重置|到期|频道|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网|xhttp";
+  const HEALTH_CHECK = { enable: true, interval: 300, lazy: false, url: "http://www.gstatic.com/generate_204", tolerance: 80, timeout: 5000 };
+
+  const AUTO_T = { type: "url-test", ...HEALTH_CHECK, "exclude-filter": FILTER, hidden: true, proxies: [] };
+  const FALLBACK_T = { type: "fallback", ...HEALTH_CHECK, "exclude-filter": FILTER, hidden: true, proxies: [] };
+  const SELECT_T = { type: "select", ...HEALTH_CHECK, "exclude-filter": FILTER, proxies: [] };
+
+  const EU_FILTER = "(?i)🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|UK|英国|France|法国|FR|Germany|德国|DE|Netherlands|荷兰|NL";
+  const OT_EXCLUDE = "(?i)港|HK|hk|Hong Kong|🇭🇰|台|TW|tw|Taiwan|🇨🇳|🇹🇼|日本|东京|大阪|JP|jp|Japan|🇯🇵|新加坡|坡|SG|狮城|Singapore|🇸🇬|美|US|us|United States|America|🇺🇸|🇩🇪|🇫🇷|🇬🇧|🇳🇱|🇮🇹|UK|英国|France|法国|FR|Germany|德国|DE|Netherlands|荷兰|NL|重置|到期|频道|套餐|剩余|有效|灾|网易|Netease|订阅|群|账户|流量|有效期|时间|官网|xhttp";
+
+  config["proxy-groups"] = [
+    { name: "𝑮𝒂𝒕𝒆𝒘𝒂𝒚", ...SELECT_T, proxies: ["𝑯𝑲 𝑵𝒐𝒅𝒆", "𝑺𝑮 𝑵𝒐𝒅𝒆", "𝑻𝑾 𝑵𝒐𝒅𝒆", "𝑱𝑷 𝑵𝒐𝒅𝒆", "𝑼𝑺 𝑵𝒐𝒅𝒆", "𝑬𝑼 𝑵𝒐𝒅𝒆", "𝑶𝑻 𝑵𝒐𝒅𝒆", "𝑼𝒑𝒔𝒕𝒓𝒆𝒂𝒎"], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png" },
+    { name: "𝑼𝒑𝒔𝒕𝒓𝒆𝒂𝒎", ...SELECT_T, proxies: ["𝑨𝑳𝑳-𝑨𝑼𝑻𝑶", "𝑨𝑳𝑳-𝑭𝑨𝑳𝑳"], "include-all": true, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Area.png" },
+    { name: "𝑨𝒅𝑩𝒍𝒐𝒄𝒌", ...SELECT_T, proxies: ["REJECT", "DIRECT"], icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/AdBlack.png" },
+    { name: "𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎", ...SELECT_T, proxies: ["𝑯𝑲 𝑵𝒐𝒅𝒆", "𝑺𝑮 𝑵𝒐𝒅𝒆", "𝑻𝑾 𝑵𝒐𝒅𝒆", "𝑱𝑷 𝑵𝒐𝒅𝒆", "𝑼𝑺 𝑵𝒐𝒅𝒆", "𝑬𝑼 𝑵𝒐𝒅𝒆", "𝑶𝑻 𝑵𝒐𝒅𝒆", "𝑼𝒑𝒔𝒕𝒓𝒆𝒂𝒎"], icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/Telegrampremium.png" },
+    { name: "𝑨𝑰-𝑶𝒏𝒍𝒚", ...SELECT_T, proxies: ["𝑼𝑺 𝑵𝒐𝒅𝒆", "𝑺𝑮 𝑵𝒐𝒅𝒆", "𝑻𝑾 𝑵𝒐𝒅𝒆", "𝑱𝑷 𝑵𝒐𝒅𝒆", "𝑬𝑼 𝑵𝒐𝒅𝒆", "𝑯𝑲 𝑵𝒐𝒅𝒆", "𝑶𝑻 𝑵𝒐𝒅𝒆", "𝑼𝒑𝒔𝒕𝒓𝒆𝒂𝒎"], icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/OpenAI.png" },
+    
+    { name: "𝑯𝑲 𝑵𝒐𝒅𝒆", ...SELECT_T, filter: "(?i)港|HK|hk|Hong Kong|🇭🇰", proxies: ["𝑯𝑲-𝑨𝑼𝑻𝑶", "𝑯𝑲-𝑭𝑨𝑳𝑳"], "include-all": true, icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/hk.png" },
+    { name: "𝑻𝑾 𝑵𝒐𝒅𝒆", ...SELECT_T, filter: "(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼", proxies: ["𝑻𝑾-𝑨𝑼𝑻𝑶", "𝑻𝑾-𝑭𝑨𝑳𝑳"], "include-all": true, icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/tw.png" },
+    { name: "𝑱𝑷 𝑵𝒐𝒅𝒆", ...SELECT_T, filter: "(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵", proxies: ["𝑱𝑷-𝑨𝑼𝑻𝑶", "𝑱𝑷-𝑭𝑨𝑳𝑳"], "include-all": true, icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/jp.png" },
+    { name: "𝑺𝑮 𝑵𝒐𝒅𝒆", ...SELECT_T, filter: "(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬", proxies: ["𝑺𝑮-𝑨𝑼𝑻𝑶", "𝑺𝑮-𝑭𝑨𝑳𝑳"], "include-all": true, icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/sg.png" },
+    { name: "𝑼𝑺 𝑵𝒐𝒅𝒆", ...SELECT_T, filter: "(?i)美|US|us|United States|America|🇺🇸", proxies: ["𝑼𝑺-𝑨𝑼𝑻𝑶", "𝑼𝑺-𝑭𝑨𝑳𝑳"], "include-all": true, icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/color/us.png" },
+    { name: "𝑬𝑼 𝑵𝒐𝒅𝒆", ...SELECT_T, filter: EU_FILTER, proxies: ["𝑬𝑼-𝑨𝑼𝑻𝑶", "𝑬𝑼-𝑭𝑨𝑳𝑳"], "include-all": true, icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/EuropeanUnion(2).png" },
+    { name: "𝑶𝑻 𝑵𝒐𝒅𝒆", ...SELECT_T, "include-all": true, "exclude-filter": OT_EXCLUDE, proxies: ["𝑶𝑻-𝑨𝑼𝑻𝑶", "𝑶𝑻-𝑭𝑨𝑳𝑳"], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png" },
+
+    { name: "𝑨𝑳𝑳-𝑨𝑼𝑻𝑶", ...AUTO_T, "include-all": true },
+    { name: "𝑨𝑳𝑳-𝑭𝑨𝑳𝑳", ...FALLBACK_T, "include-all": true },
+    { name: "𝑯𝑲-𝑨𝑼𝑻𝑶", ...AUTO_T, filter: "(?i)港|HK|hk|Hong Kong|🇭🇰", "include-all": true },
+    { name: "𝑯𝑲-𝑭𝑨𝑳𝑳", ...FALLBACK_T, filter: "(?i)港|HK|hk|Hong Kong|🇭🇰", "include-all": true },
+    { name: "𝑺𝑮-𝑨𝑼𝑻𝑶", ...AUTO_T, filter: "(?i)新加坡|坡|SG|狮城|Singapore|🇸🇬", "include-all": true },
+    { name: "𝑺𝑮-𝑭𝑨𝑳𝑳", ...FALLBACK_T, filter: "(?i)新加坡|坡|SG|sg|Singapore|🇸🇬", "include-all": true },
+    { name: "𝑻𝑾-𝑨𝑼𝑻𝑶", ...AUTO_T, filter: "(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼", "include-all": true },
+    { name: "𝑻𝑾-𝑭𝑨𝑳𝑳", ...FALLBACK_T, filter: "(?i)台|TW|tw|Taiwan|🇨🇳|🇹🇼", "include-all": true },
+    { name: "𝑱𝑷-𝑨𝑼𝑻𝑶", ...AUTO_T, filter: "(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵", "include-all": true },
+    { name: "𝑱𝑷-𝑭𝑨𝑳𝑳", ...FALLBACK_T, filter: "(?i)日本|东京|大阪|JP|jp|Japan|🇯🇵", "include-all": true },
+    { name: "𝑼𝑺-𝑨𝑼𝑻𝑶", ...AUTO_T, filter: "(?i)美|US|us|United States|America|🇺🇸", "include-all": true },
+    { name: "𝑼𝑺-𝑭𝑨𝑳𝑳", ...FALLBACK_T, filter: "(?i)美|US|us|United States|America|🇺🇸", "include-all": true },
+    { name: "𝑬𝑼-𝑨𝑼𝑻𝑶", ...AUTO_T, filter: EU_FILTER, "include-all": true },
+    { name: "𝑬𝑼-𝑭𝑨𝑳𝑳", ...FALLBACK_T, filter: EU_FILTER, "include-all": true },
+    { name: "𝑶𝑻-𝑨𝑼𝑻𝑶", ...AUTO_T, "include-all": true, "exclude-filter": OT_EXCLUDE },
+    { name: "𝑶𝑻-𝑭𝑨𝑳𝑳", ...FALLBACK_T, "include-all": true, "exclude-filter": OT_EXCLUDE }
+  ];
+
+  const bDomain = { type: "http", behavior: "domain", format: "mrs", interval: 86400, proxy: "DIRECT" };
+  const bIp = { type: "http", behavior: "ipcidr", format: "mrs", interval: 86400, proxy: "DIRECT" };
+  const M = "https://ghfast.top/";
+  
+  config["rule-providers"] = {
+    "秋风去广告": { ...bDomain, url: M + "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs", path: "./ruleset/秋风去广告.mrs" },
+    "STUN": { ...bDomain, url: M + "https://github.com/Kwisma/rules/raw/main/rules/mihomo/STUN/STUN_Domain.mrs", path: "./ruleset/STUN.mrs" },
+    "Fakeip-Filter": { ...bDomain, url: M + "https://github.com/DustinWin/ruleset_geodata/raw/mihomo-ruleset/fakeip-filter.mrs", path: "./ruleset/Fakeip-Filter.mrs" },
+    "Direct": { ...bDomain, url: M + "https://github.com/666OS/rules/raw/release/mihomo/domain/Direct.mrs", path: "./ruleset/Direct.mrs" },
+    "Private": { ...bDomain, url: M + "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs", path: "./ruleset/Private.mrs" },
+    "Private_IP": { ...bIp, url: M + "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs", path: "./ruleset/Private_IP.mrs" },
+    "Global_IP": { ...bIp, url: M + "https://github.com/GitMetaio/rule/raw/master/rule/Clash/Global/Global_OCD_IP.mrs", path: "./ruleset/Global_IP.mrs" },
+    "Global": { ...bDomain, url: M + "https://github.com/GitMetaio/rule/raw/master/rule/Clash/Global/Global_OCD_Domain.mrs", path: "./ruleset/Global.mrs" },
+    "CN": { ...bDomain, url: M + "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs", path: "./ruleset/CN.mrs" },
+    "CN_IP": { ...bIp, url: M + "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs", path: "./ruleset/CN_IP.mrs" },
+    "AI专属": { ...bDomain, url: M + "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs", path: "./ruleset/AI专属.mrs" },
+    "telegram": { ...bDomain, url: M + "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs", path: "./ruleset/telegram.mrs" },
+    "telegram_ip": { ...bIp, url: M + "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs", path: "./ruleset/telegram_ip.mrs" }
+  };
+
+  config["rules"] = [
+    "RULE-SET,秋风去广告,𝑨𝒅𝑩𝒍𝒐𝒄𝒌",
+    "RULE-SET,STUN,REJECT-DROP",
+    "RULE-SET,Fakeip-Filter,DIRECT",
+    "RULE-SET,Private,DIRECT",
+    "RULE-SET,Private_IP,DIRECT,no-resolve",
+    "RULE-SET,Direct,DIRECT",
+    "RULE-SET,AI专属,𝑨𝑰-𝑶𝒏𝒍𝒚",
+    "RULE-SET,telegram,𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎",
+    "RULE-SET,telegram_ip,𝑻𝒆𝒍𝒆𝒈𝒓𝒂𝒎,no-resolve",
+    "RULE-SET,Global,𝑮𝒂𝒕𝒆𝒘𝒂𝒚",
+    "RULE-SET,Global_IP,𝑮𝒂𝒕𝒆𝒘𝒂𝒚,no-resolve",
+    "RULE-SET,CN,DIRECT",
+    "RULE-SET,CN_IP,DIRECT,no-resolve",
+    "MATCH,𝑮𝒂𝒕𝒆𝒘𝒂𝒚"
+  ];
+
+  return config;
+} 
