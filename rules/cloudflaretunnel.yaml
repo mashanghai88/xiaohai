@@ -1,0 +1,11 @@
+payload:
+  - DOMAIN-SUFFIX,cloudflareaccess.com
+  - DOMAIN-SUFFIX,cloudflare.com
+  - DOMAIN-SUFFIX,argotunnel.com
+  - DOMAIN-SUFFIX,cloudflaretunnel.net
+  - IP-CIDR,198.41.128.0/17,no-resolve
+  - IP-CIDR,162.158.0.0/15,no-resolve
+  - IP-CIDR,104.16.0.0/13,no-resolve
+  - IP-CIDR,104.24.0.0/14,no-resolve
+  - IP-CIDR,172.64.0.0/13,no-resolve
+  - IP-CIDR,131.0.72.0/22,no-resolve
