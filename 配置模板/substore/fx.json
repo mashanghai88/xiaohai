@@ -1,0 +1,164 @@
+function main(config) {
+  config = config || {};
+
+  Object.assign(config, {
+    "mixed-port": 7890,
+    "log-level": "info",
+    "ipv6": true,
+    "allow-lan": true,
+    "external-controller": "0.0.0.0:9090",
+    "secret": "197502",
+    "external-ui": "/etc/mihomo/ui",
+    "unified-delay": true,
+    "tcp-concurrent": true,
+    "find-process-mode": "off",
+    "keep-alive-idle": 300,
+    "keep-alive-interval": 75,
+    "profile": {
+      "store-selected": true,
+      "store-fake-ip": true
+    },
+    "sniffer": {
+      "enable": true,
+      "force-dns-mapping": true,
+      "parse-pure-ip": true,
+      "override-destination": false,
+      "sniff": {
+        "HTTP": { "ports": [80, "8080-8880"], "override-destination": true },
+        "TLS": { "ports": [443, 8443] },
+        "QUIC": { "ports": [443, 8443] }
+      },
+      "skip-domain": ["Mijia Cloud", "+.push.apple.com"],
+      "skip-dst-address": ["rule-set:telegram_ip"]
+    },
+    "tun": {
+      "enable": true,
+      "stack": "system",
+      "dns-hijack": ["udp://any:53", "tcp://any:53"],
+      "auto-route": true,
+      "auto-redirect": true,
+      "auto-detect-interface": true
+    },
+    "hosts": {
+      "dns.alidns.com": ["223.5.5.5", "223.6.6.6"],
+      "doh.pub": ["1.12.12.21", "120.53.53.53"],
+      "cloudflare-dns.com": ["1.1.1.1", "1.0.0.1"],
+      "d.atri.ink": ["43.129.165.236"]
+    }
+  });
+
+  config["dns"] = {
+    "enable": true,
+    "ipv6": true,
+    "cache-algorithm": "arc",
+    "listen": "[::]:1053",
+    "enhanced-mode": "fake-ip",
+    "fake-ip-range": "198.18.0.1/16",
+    "fake-ip-filter": [
+      "+.local",
+      "localhost",
+      "+.argotunnel.com",
+      "+.cloudflaretunnel.net",
+      "+.cloudflare.com",
+      "+.cloudflareaccess.com"
+    ],
+    "default-nameserver": ["223.5.5.5"],
+    "proxy-server-nameserver": ["https://doh.pub/dns-query"],
+    "nameserver": ["https://d.atri.ink/dns-query"],
+    "nameserver-policy": {
+      "*": "system",
+      "+.arpa": "system",
+      "rule-set:gfw": ["https://1.1.1.1/dns-query#代理"]
+    },
+    "direct-nameserver": ["223.5.5.5"]
+  };
+
+  config["proxies"] = config["proxies"] || [];
+  config["proxies"].push(
+    { "name": "IPv4优先", "type": "direct", "ip-version": "ipv4-prefer" },
+    { "name": "IPv6优先", "type": "direct", "ip-version": "ipv6-prefer" },
+    { "name": "双栈", "type": "direct" }
+  );
+
+  const hc_fast = { "url": "https://www.gstatic.com/generate_204", "interval": 300 };
+  const hc_slow = { "url": "https://www.gstatic.com/generate_204", "interval": 600, "lazy": false };
+  const select = { "type": "select", "include-all": true, ...hc_slow };
+  const urlTest = { "type": "url-test", "include-all": true, ...hc_fast, "tolerance": 50, "hidden": true };
+  const fall = { "type": "fallback", "include-all": true, ...hc_fast, "hidden": true };
+
+  const icon_url = "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/";
+  const icon_fastly = "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/";
+
+  const f_hk = "(?i)香港|hong kong|HK";
+  const f_sg = "(?i)(新加坡|狮城|singapore|SG)";
+  const f_jp = "(?i)日本|japan|JP";
+  const f_us = "(?i)美国|united states|US";
+  const f_eu = "(?i)伦敦|英国|United Kingdom|法国|France|德国|Germany|荷兰|Netherlands|UK|FR|DE|NL";
+  const f_ot = "(?i)^(?!.*(?:优先|双栈|回家|剩余|到期|Traffic|Expire|香港|hong kong|新加坡|狮城|singapore|日本|japan|美国|united states|伦敦|英国|United Kingdom|法国|France|德国|Germany|荷兰|Netherlands|HK|SG|JP|US|UK|FR|DE|NL)).*";
+
+  config["proxy-groups"] = [
+    { "name": "HK自动", ...urlTest, "filter": f_hk },
+    { "name": "HK回退", ...fall, "filter": f_hk },
+    { "name": "SG自动", ...urlTest, "filter": f_sg },
+    { "name": "SG回退", ...fall, "filter": f_sg },
+    { "name": "JP自动", ...urlTest, "filter": f_jp },
+    { "name": "JP回退", ...fall, "filter": f_jp },
+    { "name": "US自动", ...urlTest, "filter": f_us },
+    { "name": "US回退", ...fall, "filter": f_us },
+    { "name": "EU自动", ...urlTest, "filter": f_eu },
+    { "name": "EU回退", ...fall, "filter": f_eu },
+    { "name": "OT自动", ...urlTest, "filter": f_ot },
+    { "name": "OT回退", ...fall, "filter": f_ot },
+    { "name": "HK", ...select, "proxies": ["HK自动", "HK回退"], "filter": f_hk, "icon": `${icon_url}Hong_Kong.png` },
+    { "name": "SG", ...select, "proxies": ["SG自动", "SG回退"], "filter": f_sg, "icon": `${icon_fastly}Singapore.png` },
+    { "name": "JP", ...select, "proxies": ["JP自动", "JP回退"], "filter": f_jp, "icon": `${icon_fastly}Japan.png` },
+    { "name": "US", ...select, "proxies": ["US自动", "US回退"], "filter": f_us, "icon": `${icon_fastly}United_States.png` },
+    { "name": "EU", ...select, "proxies": ["EU自动", "EU回退"], "filter": f_eu, "icon": `${icon_url}European_Union.png` },
+    { "name": "OT", ...select, "proxies": ["OT自动", "OT回退"], "filter": f_ot, "icon": `${icon_fastly}Global.png` },
+    { "name": "AI", "type": "select", "proxies": ["US", "JP", "HK", "SG", "EU", "OT"], ...hc_slow, "icon": `${icon_fastly}ChatGPT.png` },
+    { "name": "TG", "type": "select", "proxies": ["SG", "HK", "JP", "US", "EU", "OT"], ...hc_slow, "icon": `${icon_fastly}Telegram.png` },
+    { "name": "代理", "type": "select", "proxies": ["JP", "SG", "HK", "US", "EU", "OT"], ...hc_slow, "icon": `${icon_fastly}Proxy.png` },
+    { "name": "直连", "type": "select", "proxies": ["IPv4优先", "IPv6优先", "双栈", "代理"], "url": "https://connectivitycheck.platform.hicloud.com/generate_204", "interval": 600, "lazy": false, "icon": `${icon_fastly}Direct.png` },
+    { "name": "GLOBAL", "type": "select", "proxies": ["HK", "SG", "JP", "US", "EU", "OT", "AI", "TG", "代理", "直连"], ...hc_slow, "icon": `${icon_fastly}Global.png` }
+  ];
+
+  const rIp = { "type": "http", "interval": 86400, "behavior": "ipcidr", "format": "mrs", "proxy": "代理" };
+  const rDomain = { "type": "http", "interval": 86400, "behavior": "domain", "format": "mrs", "proxy": "代理" };
+  const rClassical = { "type": "http", "interval": 86400, "behavior": "classical", "format": "yaml", "proxy": "代理" };
+
+  config["rule-providers"] = {
+    "cloudflare": { ...rClassical, "path": "./rule_providers/cloudflare.yaml", "url": "https://ghfast.top/https://raw.githubusercontent.com/mashanghai88/xiaohai/refs/heads/main/rules/cloudflare.yaml" },
+    "private": { ...rDomain, "path": "./rule_providers/private.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs" },
+    "private_ip": { ...rIp, "path": "./rule_providers/private_ip.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs" },
+    "ai": { ...rDomain, "path": "./rule_providers/ai.mrs", "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/ai.mrs" },
+    "telegram": { ...rDomain, "path": "./rule_providers/telegram.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs" },
+    "telegram_ip": { ...rIp, "path": "./rule_providers/telegram_ip.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs" },
+    "github": { ...rDomain, "path": "./rule_providers/github.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs" },
+    "twitter": { ...rDomain, "path": "./rule_providers/twitter.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs" },
+    "youtube": { ...rDomain, "path": "./rule_providers/youtube.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs" },
+    "google": { ...rDomain, "path": "./rule_providers/google.mrs", "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs" },
+    "gfw": { ...rDomain, "path": "./rule_providers/gfw.mrs", "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/gfw.mrs" },
+    "cn": { ...rDomain, "path": "./rule_providers/cn.mrs", "url": "https://raw.githubusercontent.com/YiXuanZX/rules/main/cn-additional-list.mrs" },
+    "cn_ip": { ...rIp, "path": "./rule_providers/cn_ip.mrs", "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/cnip.mrs" }
+  };
+
+  config["rules"] = [
+    "DOMAIN-SUFFIX,wuxian.jo3.org,直连",
+    "RULE-SET,cloudflare,直连",
+    "RULE-SET,private,直连",
+    "RULE-SET,private_ip,直连,no-resolve",
+    "RULE-SET,ai,AI",
+    "RULE-SET,telegram,TG",
+    "RULE-SET,telegram_ip,TG,no-resolve",
+    "RULE-SET,github,代理",
+    "RULE-SET,twitter,代理",
+    "RULE-SET,youtube,代理",
+    "RULE-SET,google,代理",
+    "RULE-SET,gfw,代理",
+    "RULE-SET,cn,直连",
+    "RULE-SET,cn_ip,直连",
+    "MATCH,代理"
+  ];
+
+  return config;
+}
