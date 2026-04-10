@@ -7,7 +7,7 @@ function main(config) {
     "ipv6": true,
     "allow-lan": true,
     "external-controller": "0.0.0.0:9090",
-    "secret": "197502",
+    "secret": "123456",
     "external-ui": "/etc/mihomo/ui",
     "unified-delay": true,
     "tcp-concurrent": true,
