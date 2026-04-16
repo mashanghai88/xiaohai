@@ -2,7 +2,7 @@ UA_T: &UA_T {type: http, interval: 86400, proxy: DIRECT, header: {User-Agent: ["
 proxy-providers:
   Sub_1:
     <<: *UA_T
-    url: "https://substore.marius.de5.net/msh3403672154/download/CF%E6%9C%8D%E5%8A%A1%E5%99%A8"
+    url: "订阅链接"
     path: ./providers/Sub_1.yaml
 
 SUBS: &SUBS [Sub_1]
