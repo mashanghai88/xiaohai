@@ -23,7 +23,7 @@ OT_T: &OT_T '^(?i)(?!.*(香港|Hong Kong|Taiwan|台湾|TW|Japan|日本|JP|Singap
 mixed-port: 7890
 allow-lan: true
 mode: rule
-log-level: debug
+log-level: info
 ipv6: true
 unified-delay: true
 tcp-concurrent: true
