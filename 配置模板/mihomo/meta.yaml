@@ -34,12 +34,12 @@ profile:
   store-fake-ip: true
 geodata-mode: true
 geox-url:
-  geoip: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
-  geosite: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat'
+  geoip: 'https://ghfast.top/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
+  geosite: 'https://ghfast.top/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat'
 
 external-controller: "[::]:9090"
 external-ui: ui
-external-ui-url: "https://github.com/Zephyruso/zashboard/releases/latest/download/dist-cdn-fonts.zip"
+external-ui-url: "https://ghfast.top/https://github.com/Zephyruso/zashboard/releases/latest/download/dist-cdn-fonts.zip"
 sniffer:
   enable: true
   force-dns-mapping: true
@@ -150,11 +150,11 @@ rule-providers:
   stun: {<<: *d, url: 'https://testingcf.jsdelivr.net/gh/Kwisma/rules@main/rules/mihomo/STUN/STUN_Domain.mrs', path: ./ruleset/stun.mrs}
   fakeip-filter: {<<: *d, url: 'https://testingcf.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs', path: ./ruleset/fakeip-filter.mrs}
   private: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs', path: ./ruleset/private.mrs}
-  private_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs', path: ./rules/private_ip.mrs}
-  global_ip: {<<: *i, url: 'https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_IP.mrs', path: ./rules/global_ip.mrs}  
-  global: {<<: *d, url: 'https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_Domain.mrs', path: ./rules/global.mrs}
-  cn: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs', path: ./rules/cn.mrs}
-  cn_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs', path: ./rules/cn_ip.mrs} 
+  private_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs', path: ./ruleset/private_ip.mrs}
+  global_ip: {<<: *i, url: 'https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_IP.mrs', path: ./ruleset/global_ip.mrs}  
+  global: {<<: *d, url: 'https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Global/Global_OCD_Domain.mrs', path: ./ruleset/global.mrs}
+  cn: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs', path: ./ruleset/cn.mrs}
+  cn_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs', path: ./ruleset/cn_ip.mrs} 
   ai: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs', path: ./ruleset/ai.mrs}
   telegram: {<<: *d, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs', path: ./ruleset/telegram.mrs}
   telegram_ip: {<<: *i, url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs', path: ./ruleset/telegram_ip.mrs}  
