@@ -85,16 +85,15 @@ dns:
     - https://doh.pub/dns-query
   nameserver:
     #- https://dns.alidns.com/dns-query
-    #- https://mosdns.apad.pro/api-query
+    #- https://dns.cloudflare.com/dns-query
     #- https://pz.fyi/dns-query
     - https://d.atri.ink/dns-query
   nameserver-policy:
-    "rule-set:private,cn": [system]
+    "rule-set:private,cn": ["https://dns.alidns.com/dns-query"]
     "rule-set:global": ["https://dns.google/dns-query#𝑷𝑹𝑶𝑿𝒀"]
     #"rule-set:global": ["https://dns.cloudflare.com/dns-query#𝑷𝑹𝑶𝑿𝒀"]
   direct-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
+    - system
   direct-nameserver-follow-policy: true
 
 hosts:
